@@ -1,17 +1,18 @@
 # Description
 
-A TODO api boilerplate.
+A TODO api boilerplate
 
 # Features
 
 - TODOS: Creating, editing and listing TODO's
 - ORM: TypeORM on PostgreSQL
+- Graphql: apollo + Typegraphql
 - Logging: nestjs default logger
-- API documentation: Graphql
+- Compodoc: Codebase documentation
 
 # Code style
 
-...
+The current codebase is following clean code, SOLID and some of design patterns
 
 # Installation
 
@@ -109,7 +110,7 @@ You can generate migration files
 yarn typeorm migration:generate -n MigrationName
 ```
 
-## Apply migrations against the local database
+### Apply migrations against the local database
 
 ```bash
 yarn typeorm migration:run
@@ -141,12 +142,14 @@ $ yarn doc
 
 # TODO
 
-[ ] Add cache strategy on getTodoById/getAllTodos
-[ ] Add e2e tests
-[ ] Add support to track errors in production. Use [sentry.io](https://sentry.io) or similar
-[ ] Escape strings with HTML entities
-[ ] Fix unit tests typings(use correct interfaces when mocking, etc)
-[ ] Sanitize task input on creation/updating
+[ ] Add build section  
+[ ] Add cache strategy on getTodoById/getAllTodos  
+[ ] Add e2e tests  
+[ ] Check if env variables are loading correctly using [schema-validation](https://docs.nestjs.com/techniques/configuration#schema-validation)  
+[ ] Escape strings with HTML entities  
+[ ] Fix unit tests typings(use correct interfaces when mocking, etc)  
+[ ] Sanitize task input on creation/updating  
+[ ] Track errors in production. Use [sentry.io](https://sentry.io) or similar
 
 Observation: Some TODO's are spread across the code and need to be fixed ASAP
 

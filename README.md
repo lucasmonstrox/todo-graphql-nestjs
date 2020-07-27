@@ -166,7 +166,7 @@ yarn start:prod
 
 # TODO
 
-[ ] Cache TODO'S list. Also clear list on createTodo, removeTodoById or updateTodo
+[ ] Cache TODO'S list. Also clear list on createTodo, removeTodoById or updateTodo  
 [ ] Check if env variables are loading correctly using
 [schema-validation](https://docs.nestjs.com/techniques/configuration#schema-validation)  
 [ ] Track errors in production. Use [sentry.io](https://sentry.io) or similar

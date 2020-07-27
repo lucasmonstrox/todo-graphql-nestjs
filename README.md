@@ -189,3 +189,11 @@ Observation: Some TODO's are spread across the code and need to be fixed ASAP
 # Authors
 
 - [Lucas Silva](https://github.com/luqezman) - Developer
+
+See also the list of [contributors](https://github.com/luqezman/todo-graphql-nestjs/contributors) who participated in this project.
+
+# Acknowledgments
+
+- Coffee
+- Inspiration
+- Self-Motivation

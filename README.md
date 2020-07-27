@@ -1,17 +1,23 @@
 # Description
 
-A TODO api boilerplate.
+A TODO api boilerplate
 
 # Features
 
 - TODOS: Creating, editing and listing TODO's
 - ORM: TypeORM on PostgreSQL
-- Logging: nestjs default logger
-- API documentation: Graphql
+- Graphql + Playground: TypeGraphQL
+- Cache System: type-cacheable
+- Logging: NestJS default logger
+- Sanitizer: class-sanitizer
+- E2E tests: SuperTest
+- Unit tests: Jest
+- Documentation: Compodoc
 
 # Code style
 
-...
+The current codebase is following `clean code`, `SOLID` and some of
+`design patterns`
 
 # Installation
 
@@ -24,8 +30,9 @@ A TODO api boilerplate.
 
 ## Setting up PostgreSQL database
 
-This is will make a new PostgreSQL running in the standard port 5432
-Please shutdown any previous conflicting PostgreSQL instances before starting this
+- This is will make a new PostgreSQL running in the standard port 5432
+- Please shutdown any previous conflicting PostgreSQL instances before starting
+  this
 
 ```bash
 docker-compose up -d
@@ -63,26 +70,26 @@ yarn typeorm migration:run
 
 ```bash
 # development
-$ yarn start
+yarn start
 
 # watch mode
-$ yarn start:dev
+yarn start:dev
 
 # production mode
-$ yarn start:prod
+yarn start:prod
 ```
 
 ## Running tests
 
 ```bash
 # unit tests
-$ yarn test 
+yarn test
 
 # e2e tests
-$ yarn test:e2e
+yarn test:e2e
 
 # test coverage
-$ yarn test:cov
+yarn test:cov
 ```
 
 ## Lint
@@ -90,7 +97,7 @@ $ yarn test:cov
 Linting codebase
 
 ```bash
-$ yarn lint
+yarn lint
 ```
 
 ## Migrations
@@ -101,15 +108,15 @@ Run `typeorm` CLI
 
 You can generate migration files
 
-1) Update entity source code
-2) You have an up-to-date local development database
+1. Update entity source code
+2. You have an up-to-date local development database
 
 ```bash
 # Creates a file under src/migrations/
 yarn typeorm migration:generate -n MigrationName
 ```
 
-## Apply migrations against the local database
+### Apply migrations against the local database
 
 ```bash
 yarn typeorm migration:run
@@ -127,36 +134,58 @@ docker exec -it local_db psql -U local_dev local_db
 
 ## Health check
 
-After the application starts, go to `http://localhost:$PORT/health` to check database status
+After the application starts, go to `http://localhost:$PORT/health` to check
+database status
 
-Observartion: You must change $PORT for the port to be used in your environment
+Observartion: You must change `$PORT` for the port to be used in your
+environment
 
 ## Documentation
 
 Generating codebase documentation
 
 ```bash
-$ yarn doc
+yarn doc
+```
+
+# Deployment
+
+## Building
+
+Building to production
+
+```bash
+yarn build
+```
+
+Running on production
+
+```bash
+yarn start:prod
 ```
 
 # TODO
 
-[ ] Add cache strategy on getTodoById/getAllTodos
-[ ] Add e2e tests
-[ ] Add support to track errors in production. Use [sentry.io](https://sentry.io) or similar
-[ ] Escape strings with HTML entities
-[ ] Fix unit tests typings(use correct interfaces when mocking, etc)
-[ ] Sanitize task input on creation/updating
+[ ] Cache TODO'S list. Also clear list on createTodo, removeTodoById or updateTodo
+[ ] Check if env variables are loading correctly using
+[schema-validation](https://docs.nestjs.com/techniques/configuration#schema-validation)  
+[ ] Track errors in production. Use [sentry.io](https://sentry.io) or similar
 
 Observation: Some TODO's are spread across the code and need to be fixed ASAP
 
-## Build with
+# Build with
 
-- [compodoc](https://compodoc.app) - The missing documentation tool for your Angular application
-- [nestjs](https://nestjs.com) - A progressive Node.js framework for building efficient, reliable and scalable server-side applications
-- [typegraphql](https://typegraphql.com) - Modern framework for GraphQL API in Node.js
-- [typeorm](https://typeorm.io) - Amazing ORM for TypeScript and JavaScript (ES7, ES6, ES5)
+- [compodoc](https://compodoc.app) - The missing documentation tool for your
+  Angular application
+- [nestjs](https://nestjs.com) - A progressive Node.js framework for building
+  efficient, reliable and scalable server-side applications
+- [supertest](https://visionmedia.github.io/superagent) - Small progressive
+  client-side HTTP request library, and Node.js module with the same API
+- [typegraphql](https://typegraphql.com) - Modern framework for GraphQL API in
+  Node.js
+- [typeorm](https://typeorm.io) - Amazing ORM for TypeScript and JavaScript
+  (ES7, ES6, ES5)
 
-## Authors
+# Authors
 
 - [Lucas Silva](https://github.com/luqezman) - Developer

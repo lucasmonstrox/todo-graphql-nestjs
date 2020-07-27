@@ -1,0 +1,26 @@
+version: '3'
+
+services:
+  # https://hub.docker.com/_/postgres
+  postgres:
+    image: postgres
+    container_name: local_db
+    restart: always
+    environment:
+      - POSTGRES_USER=local_dev
+      - POSTGRES_PASSWORD=local_dev
+      - POSTGRES_DB=local_db
+    ports:
+      - 5432:5432
+    volumes:
+      - local_db_data:/var/lib/postgresql/data
+  redis:
+    image: 'redis:alpine'
+    ports:
+      - 6379:6379
+    volumes:
+      - redis_data:/var/lib/redis
+
+volumes:
+  local_db_data:
+  redis_data:

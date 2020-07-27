@@ -5,31 +5,41 @@ import { TodoService } from 'services/todo/__mocks__/todo.service';
 import { GetTodoByIdPipe } from './get-todo-by-id.pipe';
 
 describe('GetTodoByIdPipe', () => {
-  let getTodoByIdPipe: GetTodoByIdPipe;
-  let todoService: TodoService;
+  type SutTypes = {
+    sut: GetTodoByIdPipe;
+    todoServiceMock: TodoService;
+  };
 
-  beforeEach(async () => {
-    todoService = new TodoService();
+  const makeSut = (): SutTypes => {
+    const todoServiceMock = new TodoService();
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
-    getTodoByIdPipe = new GetTodoByIdPipe(todoService);
-  });
+    const getTodoByIdPipe = new GetTodoByIdPipe(todoServiceMock);
+
+    return {
+      todoServiceMock,
+      sut: getTodoByIdPipe,
+    };
+  };
 
   it("should throw a BadRequestException when todo doesn't exist", async () => {
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-    // @ts-ignore
-    todoService.getTodoById.mockImplementationOnce(() => null);
+    const { sut, todoServiceMock } = makeSut();
 
-    await expect(
-      getTodoByIdPipe.transform(TodoRepository.todo.id),
-    ).rejects.toThrow(BadRequestException);
+    todoServiceMock.getTodoById.mockImplementationOnce(() => null);
+
+    await expect(sut.transform(TodoRepository.todo.id)).rejects.toThrow(
+      BadRequestException,
+    );
   });
 
   it('should transform into a todo', async () => {
-    expect(await getTodoByIdPipe.transform(TodoRepository.todo.id)).toBe(
+    const { sut, todoServiceMock } = makeSut();
+
+    expect(await sut.transform(TodoRepository.todo.id)).toBe(
       TodoRepository.todo,
     );
-    expect(todoService.getTodoById).toHaveBeenCalledWith(
+
+    expect(todoServiceMock.getTodoById).toHaveBeenCalledWith(
       TodoRepository.todo.id,
     );
   });

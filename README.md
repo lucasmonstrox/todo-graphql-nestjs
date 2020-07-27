@@ -168,7 +168,8 @@ yarn start:prod
 
 [ ] Add code of conduct file to docs  
 [ ] Add issue template file to docs  
-[ ] Cache TODO'S list. Also clear list on createTodo, removeTodoById or updateTodo  
+[ ] Cache TODO'S list. Also clear list on createTodo, removeTodoById or
+updateTodo  
 [ ] Check if env variables are loading correctly using
 [schema-validation](https://docs.nestjs.com/techniques/configuration#schema-validation)  
 [ ] Track errors in production. Use [sentry.io](https://sentry.io) or similar
@@ -192,7 +193,9 @@ Observation: Some TODO's are spread across the code and need to be fixed ASAP
 
 - [Lucas Silva](https://github.com/luqezman) - Developer
 
-See also the list of [contributors](https://github.com/luqezman/todo-graphql-nestjs/contributors) who participated in this project.
+See also the list of
+[contributors](https://github.com/luqezman/todo-graphql-nestjs/contributors) who
+participated in this project.
 
 # Acknowledgments
 

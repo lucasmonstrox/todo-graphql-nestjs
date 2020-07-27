@@ -1,10 +1,8 @@
 import { Field, InputType } from '@nestjs/graphql';
 import { IsBoolean, IsOptional, MaxLength } from 'class-validator';
 
-import { ITodoUpdateInput } from '../interfaces/todo.interface';
-
 @InputType()
-export class TodoUpdateInput implements ITodoUpdateInput {
+export class TodoUpdateInput {
   @IsOptional()
   @IsBoolean()
   @Field({ nullable: true })

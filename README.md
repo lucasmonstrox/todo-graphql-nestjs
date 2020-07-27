@@ -140,10 +140,11 @@ Generating codebase documentation
 $ yarn doc
 ```
 
-# TODO
+## TODO
 
 [ ] Add build section  
 [ ] Add cache strategy on getTodoById/getAllTodos  
+[ ] Add docker to workn in dev & non-dev environments  
 [ ] Add e2e tests  
 [ ] Check if env variables are loading correctly using [schema-validation](https://docs.nestjs.com/techniques/configuration#schema-validation)  
 [ ] Escape strings with HTML entities  
@@ -153,13 +154,13 @@ $ yarn doc
 
 Observation: Some TODO's are spread across the code and need to be fixed ASAP
 
-## Build with
+# Build with
 
 - [compodoc](https://compodoc.app) - The missing documentation tool for your Angular application
 - [nestjs](https://nestjs.com) - A progressive Node.js framework for building efficient, reliable and scalable server-side applications
 - [typegraphql](https://typegraphql.com) - Modern framework for GraphQL API in Node.js
 - [typeorm](https://typeorm.io) - Amazing ORM for TypeScript and JavaScript (ES7, ES6, ES5)
 
-## Authors
+# Authors
 
 - [Lucas Silva](https://github.com/luqezman) - Developer

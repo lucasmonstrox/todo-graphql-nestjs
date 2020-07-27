@@ -1,12 +1,11 @@
 import { GqlModuleOptions } from '@nestjs/graphql';
 
-const environment = process.env.NODE_ENV || 'development';
-const isDevelopment = environment === 'development';
+import { IS_DEVELOPMENT } from 'consts/envs';
 
 const graphqlConfig: GqlModuleOptions = {
   autoSchemaFile: 'schema.gql',
-  debug: isDevelopment,
-  playground: isDevelopment,
+  debug: IS_DEVELOPMENT,
+  playground: IS_DEVELOPMENT,
 };
 
 export default graphqlConfig;

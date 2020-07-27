@@ -1,17 +1,9 @@
-export interface ITodo {
-  done: boolean;
-  id: string;
-  task: string;
-}
-
-export interface ITodoUpdateInput {
-  done?: boolean;
-  task?: string;
-}
+import { Todo } from 'entities/todo.entity';
+import { TodoUpdateInput } from 'inputs/todo-update.input';
 
 export interface ITodoService {
-  createTodo(task: string): Promise<ITodo>;
-  getAllTodos(): Promise<ITodo[]>;
-  getTodoById(id: string): Promise<ITodo | null>;
-  updateTodo(todo: ITodo, dataToUpdate: ITodoUpdateInput): Promise<ITodo>;
+  createTodo(task: string): Promise<Todo>;
+  getAllTodos(): Promise<Todo[]>;
+  getTodoById(id: string): Promise<Todo | null>;
+  updateTodo(todo: Todo, dataToUpdate: TodoUpdateInput): Promise<Todo>;
 }

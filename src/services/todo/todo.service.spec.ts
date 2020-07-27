@@ -1,4 +1,4 @@
-import { ITodoUpdateInput } from 'interfaces/todo.interface';
+import { TodoUpdateInput } from 'inputs/todo-update.input';
 import { TodoRepository } from 'repositories/todo/__mocks__/todo.repository';
 import { TodoService } from 'services/todo/todo.service';
 
@@ -35,7 +35,7 @@ describe('TodoService', () => {
   });
 
   it('should update a todo', async () => {
-    const dataToUpdate: ITodoUpdateInput = { done: true, task: 'newTask' };
+    const dataToUpdate: TodoUpdateInput = { done: true, task: 'newTask' };
 
     expect(
       await todoService.updateTodo(TodoRepository.todo, dataToUpdate),

@@ -10,7 +10,7 @@ import { TodoRepository } from 'repositories/todo/todo.repository';
 export class TodoService implements ITodoService {
   constructor(private readonly todoRepository: TodoRepository) {}
 
-  // TODO: After creation, TODO can be cached. Not supported yet.
+  @CacheClear({ cacheKey: 'todos' })
   async createTodo(task: string): Promise<Todo> {
     const todoAsEntity = await this.todoRepository.create({ task });
     const todo = await this.todoRepository.save(todoAsEntity);
@@ -18,7 +18,7 @@ export class TodoService implements ITodoService {
     return todo;
   }
 
-  // TODO: Cache all todos. Not supported yet.
+  @Cacheable({ cacheKey: 'todos' })
   async getAllTodos(): Promise<Todo[]> {
     const todos = await this.todoRepository.find();
 
@@ -32,7 +32,7 @@ export class TodoService implements ITodoService {
     return todo;
   }
 
-  @CacheClear({ cacheKey: ([id]: any[]) => id })
+  @CacheClear({ cacheKey: ([id]: any[]) => [id, 'todos'] })
   async removeTodoById(id: string): Promise<boolean> {
     const { affected } = await this.todoRepository.delete(id);
     const hasBeenDeleted = affected > 0;
@@ -40,7 +40,7 @@ export class TodoService implements ITodoService {
     return hasBeenDeleted;
   }
 
-  @CacheClear({ cacheKey: ([{ id }]: any[]) => id })
+  @CacheClear({ cacheKey: ([{ id }]: any[]) => [id, 'todos'] })
   async updateTodo(todo: Todo, dataToUpdate: TodoUpdateInput): Promise<Todo> {
     const todoToUpdate = Object.assign(todo, dataToUpdate);
     const updatedTodo = await this.todoRepository.save(todoToUpdate);

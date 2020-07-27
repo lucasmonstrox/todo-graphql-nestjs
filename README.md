@@ -25,8 +25,8 @@ The current codebase is following clean code, SOLID and some of design patterns
 
 ## Setting up PostgreSQL database
 
-This is will make a new PostgreSQL running in the standard port 5432
-Please shutdown any previous conflicting PostgreSQL instances before starting this
+This is will make a new PostgreSQL running in the standard port 5432 Please
+shutdown any previous conflicting PostgreSQL instances before starting this
 
 ```bash
 docker-compose up -d
@@ -77,7 +77,7 @@ $ yarn start:prod
 
 ```bash
 # unit tests
-$ yarn test 
+$ yarn test
 
 # e2e tests
 $ yarn test:e2e
@@ -102,8 +102,8 @@ Run `typeorm` CLI
 
 You can generate migration files
 
-1) Update entity source code
-2) You have an up-to-date local development database
+1. Update entity source code
+2. You have an up-to-date local development database
 
 ```bash
 # Creates a file under src/migrations/
@@ -128,9 +128,10 @@ docker exec -it local_db psql -U local_dev local_db
 
 ## Health check
 
-After the application starts, go to `http://localhost:$PORT/health` to check database status
+After the application starts, go to `http://localhost:$PORT/health` to check
+database status
 
-Observartion: You must change $PORT for the port to be used in your environment
+Observartion: You must change \$PORT for the port to be used in your environment
 
 ## Documentation
 
@@ -144,22 +145,25 @@ $ yarn doc
 
 [ ] Add build section  
 [ ] Add cache strategy on getTodoById/getAllTodos  
-[ ] Add docker to workn in dev & non-dev environments  
-[ ] Add e2e tests  
-[ ] Check if env variables are loading correctly using [schema-validation](https://docs.nestjs.com/techniques/configuration#schema-validation)  
+[ ] Check if env variables are loading correctly using
+[schema-validation](https://docs.nestjs.com/techniques/configuration#schema-validation)  
 [ ] Escape strings with HTML entities  
-[ ] Fix unit tests typings(use correct interfaces when mocking, etc)  
-[ ] Sanitize task input on creation/updating  
+[ ] Fix unit tests typings(use correct interfaces when mocking, etc). Probably,
+use System under test [ ] Sanitize task input on creation/updating  
 [ ] Track errors in production. Use [sentry.io](https://sentry.io) or similar
 
 Observation: Some TODO's are spread across the code and need to be fixed ASAP
 
 # Build with
 
-- [compodoc](https://compodoc.app) - The missing documentation tool for your Angular application
-- [nestjs](https://nestjs.com) - A progressive Node.js framework for building efficient, reliable and scalable server-side applications
-- [typegraphql](https://typegraphql.com) - Modern framework for GraphQL API in Node.js
-- [typeorm](https://typeorm.io) - Amazing ORM for TypeScript and JavaScript (ES7, ES6, ES5)
+- [compodoc](https://compodoc.app) - The missing documentation tool for your
+  Angular application
+- [nestjs](https://nestjs.com) - A progressive Node.js framework for building
+  efficient, reliable and scalable server-side applications
+- [typegraphql](https://typegraphql.com) - Modern framework for GraphQL API in
+  Node.js
+- [typeorm](https://typeorm.io) - Amazing ORM for TypeScript and JavaScript
+  (ES7, ES6, ES5)
 
 # Authors
 

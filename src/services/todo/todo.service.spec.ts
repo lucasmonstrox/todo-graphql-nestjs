@@ -34,6 +34,11 @@ describe('TodoService', () => {
     expect(todoRepository.findOne).toHaveBeenCalledWith(TodoRepository.todo.id);
   });
 
+  it('should remove a todo by id', async () => {
+    expect(await todoService.removeTodoById(TodoRepository.todo.id)).toBe(true);
+    expect(todoRepository.delete).toHaveBeenCalledWith(TodoRepository.todo.id);
+  });
+
   it('should update a todo', async () => {
     const dataToUpdate: TodoUpdateInput = { done: true, task: 'newTask' };
 

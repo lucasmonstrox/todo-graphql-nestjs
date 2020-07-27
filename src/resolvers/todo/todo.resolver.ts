@@ -38,6 +38,15 @@ export class TodoResolver {
     return todo;
   }
 
+  @Mutation(() => Boolean)
+  async removeTodoById(
+    @Args('id', { type: () => ID }) id: string,
+  ): Promise<boolean> {
+    const isDeleted = await this.todoService.removeTodoById(id);
+
+    return isDeleted;
+  }
+
   @Mutation(() => Todo)
   async updateTodo(
     @Args('id', { type: () => ID }, GetTodoByIdPipe) todo: Todo,

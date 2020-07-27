@@ -36,6 +36,15 @@ describe('TodoResolver', () => {
     );
   });
 
+  it('should get a todo by id', async () => {
+    expect(await todoResolver.removeTodoById(TodoRepository.todo.id)).toBe(
+      true,
+    );
+    expect(todoService.removeTodoById).toHaveBeenCalledWith(
+      TodoRepository.todo.id,
+    );
+  });
+
   it('should update a todo', async () => {
     const dataToUpdate: TodoUpdateInput = { done: true, task: 'newTask' };
 

@@ -28,6 +28,13 @@ export class TodoService implements ITodoService {
     return todo;
   }
 
+  async removeTodoById(id: string): Promise<boolean> {
+    const { affected } = await this.todoRepository.delete(id);
+    const hasBeenDeleted = affected > 0;
+
+    return hasBeenDeleted;
+  }
+
   async updateTodo(todo: Todo, dataToUpdate: TodoUpdateInput): Promise<Todo> {
     const todoToUpdate = Object.assign(todo, dataToUpdate);
     const updatedTodo = await this.todoRepository.save(todoToUpdate);

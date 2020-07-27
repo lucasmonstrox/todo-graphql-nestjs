@@ -1,5 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
-import { IsBoolean, IsOptional, MaxLength } from 'class-validator';
+import { IsBoolean, IsNotEmpty, IsOptional, MaxLength } from 'class-validator';
 
 @InputType()
 export class TodoUpdateInput {
@@ -9,6 +9,7 @@ export class TodoUpdateInput {
   done?: boolean;
 
   @IsOptional()
+  @IsNotEmpty()
   @MaxLength(50)
   @Field({ nullable: true })
   task?: string;

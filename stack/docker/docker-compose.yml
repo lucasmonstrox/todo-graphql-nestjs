@@ -13,7 +13,14 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - local_db_data:/var/lib/postgresql/data   
+      - local_db_data:/var/lib/postgresql/data
+  redis:
+    image: 'redis:alpine'
+    ports:
+      - 6379:6379
+    volumes:
+      - redis_data:/var/lib/redis
 
 volumes:
   local_db_data:
+  redis_data:

@@ -13,6 +13,6 @@ export class Todo {
   id: string;
 
   @Field()
-  @Column({ length: 50, nullable: false })
+  @Column({ length: 100, nullable: false })
   task: string;
 }

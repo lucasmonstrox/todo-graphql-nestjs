@@ -1,7 +1,7 @@
 import {
-  BadRequestException,
   Inject,
   Injectable,
+  NotFoundException,
   PipeTransform,
 } from '@nestjs/common';
 
@@ -22,7 +22,7 @@ export class GetTodoByIdPipe implements PipeTransform {
 
     if (todoWasNotFound) {
       // TODO: Add context exception
-      throw new BadRequestException(`Todo with id "${id}" was not found`);
+      throw new NotFoundException(`Todo with id "${id}" was not found`);
     }
 
     return todo;

@@ -5,7 +5,8 @@ import { Todo } from 'entities/todo.entity';
 import { TodoCreateInput } from 'inputs/todo-create.input';
 import { TodoUpdateInput } from 'inputs/todo-update.input';
 import { ITodoService } from 'interfaces/todo.interface';
-import { GetTodoByIdPipe } from 'pipes/get-todo-by-id.pipe';
+import { GetTodoByIdPipe } from 'pipes/get-todo-by-id/get-todo-by-id.pipe';
+import { SanitizePipe } from 'pipes/sanitize/sanitize.pipe';
 import { TodoService } from 'services/todo/todo.service';
 
 @Resolver(() => Todo)
@@ -16,7 +17,9 @@ export class TodoResolver {
   ) {}
 
   @Mutation(() => Todo)
-  async createTodo(@Args('input') { task }: TodoCreateInput): Promise<Todo> {
+  async createTodo(
+    @Args('input', SanitizePipe) { task }: TodoCreateInput,
+  ): Promise<Todo> {
     const todo = await this.todoService.createTodo(task);
 
     return todo;
@@ -50,7 +53,7 @@ export class TodoResolver {
   @Mutation(() => Todo)
   async updateTodo(
     @Args('id', { type: () => ID }, GetTodoByIdPipe) todo: Todo,
-    @Args('input') dataToUpdate: TodoUpdateInput,
+    @Args('input', SanitizePipe) dataToUpdate: TodoUpdateInput,
   ): Promise<Todo> {
     const updatedTodo = await this.todoService.updateTodo(todo, dataToUpdate);
 

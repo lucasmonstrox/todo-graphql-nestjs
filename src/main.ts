@@ -10,10 +10,11 @@ async function bootstrap() {
     new ValidationPipe({
       // TODO: Use UserInputError or another similar graphql error
       exceptionFactory: errors => new BadRequestException(errors),
+      transform: true,
     }),
   );
 
-  await app.listen(process.env.PORT || 3000);
+  await app.listen(process.env.APP_PORT || 3000);
 }
 
 bootstrap();

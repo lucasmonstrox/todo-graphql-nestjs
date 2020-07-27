@@ -2,9 +2,12 @@ import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import { TerminusModule } from '@nestjs/terminus';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { useAdapter } from '@type-cacheable/redis-adapter';
+import * as redis from 'redis';
 
 import graphqlConfig from './configs/graphql.config';
 import ormConfig from './configs/orm.config';
+import { IS_TESTING } from 'consts/envs';
 import { HealthController } from './controllers/health/health.controller';
 import { TodoRepository } from './repositories/todo/todo.repository';
 import { TodoResolver } from './resolvers/todo/todo.resolver';
@@ -20,4 +23,13 @@ import { TodoService } from './services/todo/todo.service';
   ],
   providers: [TodoResolver, TodoService],
 })
-export class AppModule {}
+export class AppModule {
+  onModuleInit() {
+    const isNotTestingEnvironment = !IS_TESTING;
+
+    if (isNotTestingEnvironment) {
+      // Do not register adapter on testing environment. Not needed.
+      useAdapter(redis.createClient());
+    }
+  }
+}

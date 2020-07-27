@@ -1,4 +1,5 @@
 import { Field, InputType } from '@nestjs/graphql';
+import { Escape, Trim } from '@hollowverse/class-sanitizer';
 import { IsBoolean, IsNotEmpty, IsOptional, MaxLength } from 'class-validator';
 
 @InputType()
@@ -8,9 +9,11 @@ export class TodoUpdateInput {
   @Field({ nullable: true })
   done?: boolean;
 
+  @Escape()
+  @Trim()
   @IsOptional()
   @IsNotEmpty()
-  @MaxLength(50)
+  @MaxLength(100)
   @Field({ nullable: true })
   task?: string;
 }

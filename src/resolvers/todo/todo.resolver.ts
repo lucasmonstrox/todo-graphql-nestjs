@@ -16,10 +16,7 @@ export class TodoResolver {
   ) {}
 
   @Mutation(() => Todo)
-  async createTodo(
-    @Args('input')
-    { task }: TodoCreateInput,
-  ): Promise<Todo> {
+  async createTodo(@Args('input') { task }: TodoCreateInput): Promise<Todo> {
     const todo = await this.todoService.createTodo(task);
 
     return todo;

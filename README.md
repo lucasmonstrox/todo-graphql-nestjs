@@ -179,6 +179,7 @@ Observation: Some TODO's are spread across the code and need to be fixed ASAP
 
 - [compodoc](https://compodoc.app) - The missing documentation tool for your
   Angular application
+- [jest](https://jestjs.io) - Jest is a delightful JavaScript Testing Framework with a focus on simplicity
 - [nestjs](https://nestjs.com) - A progressive Node.js framework for building
   efficient, reliable and scalable server-side applications
 - [supertest](https://visionmedia.github.io/superagent) - Small progressive

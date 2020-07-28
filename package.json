@@ -8,7 +8,7 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
-    "doc": "npx compodoc -p tsconfig.json -s",
+    "doc": "npx compodoc --disableCoverage -p tsconfig.json -s",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",

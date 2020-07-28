@@ -1,6 +1,10 @@
 import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
-import { TerminusModule } from '@nestjs/terminus';
+import {
+  TerminusModule,
+  TypeOrmHealthIndicator,
+  TerminusModuleOptions,
+} from '@nestjs/terminus';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { useAdapter } from '@type-cacheable/redis-adapter';
 import * as redis from 'redis';
@@ -8,16 +12,28 @@ import * as redis from 'redis';
 import graphqlConfig from './configs/graphql.config';
 import ormConfig from './configs/orm.config';
 import { IS_TESTING } from 'consts/envs';
-import { HealthController } from './controllers/health/health.controller';
 import { TodoRepository } from './repositories/todo/todo.repository';
 import { TodoResolver } from './resolvers/todo/todo.resolver';
 import { TodoService } from './services/todo/todo.service';
 
 @Module({
-  controllers: [HealthController],
   imports: [
     GraphQLModule.forRoot(graphqlConfig),
-    TerminusModule,
+    TerminusModule.forRootAsync({
+      inject: [TypeOrmHealthIndicator],
+      useFactory: (
+        typeOrmHealthIndicator: TypeOrmHealthIndicator,
+      ): TerminusModuleOptions => ({
+        endpoints: [
+          {
+            healthIndicators: [
+              async () => await typeOrmHealthIndicator.pingCheck('database'),
+            ],
+            url: 'health',
+          },
+        ],
+      }),
+    }),
     TypeOrmModule.forRoot(ormConfig),
     TypeOrmModule.forFeature([TodoRepository]),
   ],

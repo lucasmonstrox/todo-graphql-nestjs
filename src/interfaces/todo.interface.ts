@@ -6,5 +6,5 @@ export interface ITodoService {
   getAllTodos(): Promise<Todo[]>;
   getTodoById(id: string): Promise<Todo | null>;
   removeTodoById(id: string): Promise<boolean>;
-  updateTodo(todo: Todo, dataToUpdate: TodoUpdateInput): Promise<Todo>;
+  updateTodo(todo: Todo, todoUpdateInput: TodoUpdateInput): Promise<Todo>;
 }

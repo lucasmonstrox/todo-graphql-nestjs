@@ -8,7 +8,7 @@
   "scripts": {
     "prebuild": "rimraf dist",
     "build": "nest build",
-    "doc": "npx compodoc -p tsconfig.json -s",
+    "doc": "npx compodoc --disableCoverage -p tsconfig.json -s",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
     "start": "nest start",
     "start:dev": "nest start --watch",
@@ -23,6 +23,7 @@
     "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js --config src/configs/orm.config.ts"
   },
   "dependencies": {
+    "@godaddy/terminus": "^4.4.1",
     "@hollowverse/class-sanitizer": "^0.1.2",
     "@nestjs/common": "^7.0.0",
     "@nestjs/core": "^7.0.0",

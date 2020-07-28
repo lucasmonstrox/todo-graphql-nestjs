@@ -57,6 +57,16 @@ describe('TodoResolver', () => {
     );
   });
 
+  it('should remove a todo by id', async () => {
+    const { sut, todoServiceMock } = makeSut();
+
+    expect(await sut.removeTodoById(TodoRepository.todo.id)).toBe(true);
+
+    expect(todoServiceMock.removeTodoById).toHaveBeenCalledWith(
+      TodoRepository.todo.id,
+    );
+  });
+
   it('should update a todo', async () => {
     const { sut, todoServiceMock } = makeSut();
     const todoUpdateInput: TodoUpdateInput = { done: true, task: 'newTask' };

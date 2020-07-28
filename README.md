@@ -168,15 +168,14 @@ yarn start:prod
 
 [ ] Add code of conduct file to docs  
 [ ] Add issue template file to docs  
-[ ] Cache TODO'S list. Also clear list on createTodo, removeTodoById or
-updateTodo  
+[ ] Cache a TODO immediately after create  
 [ ] Check if env variables are loading correctly using
 [schema-validation](https://docs.nestjs.com/techniques/configuration#schema-validation)  
 [ ] Track errors in production. Use [sentry.io](https://sentry.io) or similar
 
 Observation: Some TODO's are spread across the code and need to be fixed ASAP
 
-# Build with
+# Built with
 
 - [compodoc](https://compodoc.app) - The missing documentation tool for your
   Angular application

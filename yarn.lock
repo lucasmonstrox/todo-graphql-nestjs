@@ -1549,19 +1549,19 @@
     multimatch "^4.0.0"
     typescript "~3.9.7"
 
-"@type-cacheable/core@^6.0.0":
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/@type-cacheable/core/-/core-6.0.0.tgz#54e3d98c2f307ad97edb805d4dba8034c84b65ab"
-  integrity sha512-Fg3K6ycFJsD71yCrzZOSatNMcn5v821J0zHCdiQAB+Zk6YFHLAB5prBwJ4CGP/C3DLZlyxjgRGAfZvxqKp63wQ==
+"@type-cacheable/core@^6.2.0":
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/@type-cacheable/core/-/core-6.2.0.tgz#41cb8a6d462eca2ae2e943f8215fe28b6708c241"
+  integrity sha512-Sfk3gplvR9QfwPUPIlWF+AmM5E2t/QVmzA3B6+Je+vbnuBDhNyb0jQ32Pj/Fsq22d4qYeAPzbSNyTDckePqJEQ==
   dependencies:
     serialize-javascript "^4.0.0"
 
-"@type-cacheable/redis-adapter@^6.0.0":
-  version "6.0.0"
-  resolved "https://registry.yarnpkg.com/@type-cacheable/redis-adapter/-/redis-adapter-6.0.0.tgz#1a0b8c20eb22d3a08ef0fb0b6b54ba7a2071b923"
-  integrity sha512-L1a3yvxRtSaCQUtS51dkHRhl7IaPWCsx1ogjdmoK0r3v3ygwe6RxQSSzKgesarEa1HjB7C7GOB3sNoU1+MTWCg==
+"@type-cacheable/redis-adapter@^6.2.0":
+  version "6.2.0"
+  resolved "https://registry.yarnpkg.com/@type-cacheable/redis-adapter/-/redis-adapter-6.2.0.tgz#7c719e03d3369b9c4d757f1209c26447ca57d9ee"
+  integrity sha512-7y7RNXPsqH5YYJqccddnhCZcqnUZsxkmFZQ9VoLHlE0E7a+vXl6lbELiQp7iRawS252iuAHOeWR+gd4uJXMhzg==
   dependencies:
-    "@type-cacheable/core" "^6.0.0"
+    "@type-cacheable/core" "^6.2.0"
 
 "@types/accepts@*", "@types/accepts@^1.3.5":
   version "1.3.5"

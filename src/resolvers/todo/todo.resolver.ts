@@ -53,9 +53,9 @@ export class TodoResolver {
   @Mutation(() => Todo)
   async updateTodo(
     @Args('id', { type: () => ID }, GetTodoByIdPipe) todo: Todo,
-    @Args('input', SanitizePipe) dataToUpdate: TodoUpdateInput,
+    @Args('input', SanitizePipe) todoUpdateInput: TodoUpdateInput,
   ): Promise<Todo> {
-    const updatedTodo = await this.todoService.updateTodo(todo, dataToUpdate);
+    const updatedTodo = await this.todoService.updateTodo(todo, todoUpdateInput);
 
     return updatedTodo;
   }

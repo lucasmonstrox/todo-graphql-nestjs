@@ -59,14 +59,14 @@ describe('TodoService', () => {
 
   it('should update a todo', async () => {
     const { sut, todoRepositoryMock } = makeSut();
-    const dataToUpdate: TodoUpdateInput = { done: true, task: 'newTask' };
+    const todoUpdateInput: TodoUpdateInput = { done: true, task: 'newTask' };
 
-    expect(await sut.updateTodo(TodoRepository.todo, dataToUpdate)).toBe(
+    expect(await sut.updateTodo(TodoRepository.todo, todoUpdateInput)).toBe(
       TodoRepository.todo,
     );
 
     expect(todoRepositoryMock.save).toHaveBeenCalledWith(
-      Object.assign(TodoRepository.todo, dataToUpdate),
+      Object.assign(TodoRepository.todo, todoUpdateInput),
     );
   });
 });

@@ -1,5 +1,5 @@
 import { Injectable } from '@nestjs/common';
-import { Cacheable, CacheClear } from '@type-cacheable/core';
+import { Cacheable, CacheClear, CacheUpdate } from '@type-cacheable/core';
 
 import { Todo } from 'entities/todo.entity';
 import { TodoUpdateInput } from 'inputs/todo-update.input';
@@ -10,7 +10,7 @@ import { TodoRepository } from 'repositories/todo/todo.repository';
 export class TodoService implements ITodoService {
   constructor(private readonly todoRepository: TodoRepository) {}
 
-  // TODO: After creation, TODO can be cached. Not supported yet.
+  @CacheClear({ cacheKey: 'todos' })
   async createTodo(task: string): Promise<Todo> {
     const todoAsEntity = await this.todoRepository.create({ task });
     const todo = await this.todoRepository.save(todoAsEntity);
@@ -18,21 +18,21 @@ export class TodoService implements ITodoService {
     return todo;
   }
 
-  // TODO: Cache all todos. Not supported yet.
+  @Cacheable({ cacheKey: 'todos' })
   async getAllTodos(): Promise<Todo[]> {
     const todos = await this.todoRepository.find();
 
     return todos;
   }
 
-  @Cacheable({ cacheKey: ([id]: any[]) => id })
+  @Cacheable({ cacheKey: ([id]: [string]) => id })
   async getTodoById(id: string): Promise<Todo | null> {
     const todo = await this.todoRepository.findOne(id);
 
     return todo;
   }
 
-  @CacheClear({ cacheKey: ([id]: any[]) => id })
+  @CacheClear({ cacheKey: ([id]: [string]) => [id, 'todos'] })
   async removeTodoById(id: string): Promise<boolean> {
     const { affected } = await this.todoRepository.delete(id);
     const hasBeenDeleted = affected > 0;
@@ -40,9 +40,15 @@ export class TodoService implements ITodoService {
     return hasBeenDeleted;
   }
 
-  @CacheClear({ cacheKey: ([{ id }]: any[]) => id })
-  async updateTodo(todo: Todo, dataToUpdate: TodoUpdateInput): Promise<Todo> {
-    const todoToUpdate = Object.assign(todo, dataToUpdate);
+  @CacheUpdate({
+    cacheKey: ([todo]: [Todo, TodoUpdateInput]) => todo.id,
+    cacheKeysToClear: 'todos',
+  })
+  async updateTodo(
+    todo: Todo,
+    todoUpdateInput: TodoUpdateInput,
+  ): Promise<Todo> {
+    const todoToUpdate = Object.assign(todo, todoUpdateInput);
     const updatedTodo = await this.todoRepository.save(todoToUpdate);
 
     return updatedTodo;

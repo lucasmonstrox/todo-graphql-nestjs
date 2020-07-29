@@ -12,6 +12,8 @@ A TODO api boilerplate
 - Sanitizer: class-sanitizer
 - E2E tests: SuperTest
 - Unit tests: Jest
+- Commit semantic: commitlint + husky
+- Code format and lint: eslint + prettier
 - Documentation: Compodoc
 
 # Code style

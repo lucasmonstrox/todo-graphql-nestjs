@@ -43,8 +43,8 @@ export class AppModule {
   onModuleInit() {
     const isNotTestingEnvironment = !IS_TESTING;
 
+    // Do not register adapter on testing environment. Avoid caching purposes.
     if (isNotTestingEnvironment) {
-      // Do not register adapter on testing environment. Not needed.
       useAdapter(redis.createClient());
     }
   }

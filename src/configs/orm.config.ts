@@ -9,7 +9,7 @@ const DATABASES = {
 
 const ormConfig: ConnectionOptions = {
   type: 'postgres',
-  host: 'localhost',
+  host: process.env.DB_HOST || 'localhost',
   port: process.env.DB_PORT ? +process.env.DB_PORT : 5432,
   username: process.env.DB_USERNAME || 'local_dev',
   password: process.env.DB_PASSWORD || 'local_dev',

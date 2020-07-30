@@ -11,6 +11,7 @@ import * as redis from 'redis';
 
 import graphqlConfig from './configs/graphql.config';
 import ormConfig from './configs/orm.config';
+import redisConfig from 'configs/redis.config';
 import { IS_TESTING } from 'consts/envs';
 import { TodoRepository } from './repositories/todo/todo.repository';
 import { TodoResolver } from './resolvers/todo/todo.resolver';
@@ -45,7 +46,7 @@ export class AppModule {
 
     // Do not register adapter on testing environment. Avoid caching purposes.
     if (isNotTestingEnvironment) {
-      useAdapter(redis.createClient());
+      useAdapter(redis.createClient(redisConfig));
     }
   }
 }

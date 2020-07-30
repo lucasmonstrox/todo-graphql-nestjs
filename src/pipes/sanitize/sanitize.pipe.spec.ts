@@ -10,10 +10,9 @@ describe('SanitizePipe', () => {
 
   const makeSut = (): SutTypes => {
     const sanitizePipe = new SanitizePipe();
+    const sutTypes = { sut: sanitizePipe };
 
-    return {
-      sut: sanitizePipe,
-    };
+    return sutTypes;
   };
 
   it('should sanitize input', async () => {

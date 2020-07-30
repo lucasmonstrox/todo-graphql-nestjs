@@ -15,11 +15,9 @@ describe('GetTodoByIdPipe', () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
     const getTodoByIdPipe = new GetTodoByIdPipe(todoServiceMock);
+    const sutTypes = { todoServiceMock, sut: getTodoByIdPipe };
 
-    return {
-      todoServiceMock,
-      sut: getTodoByIdPipe,
-    };
+    return sutTypes;
   };
 
   it("should throw a BadRequestException when todo doesn't exist", async () => {

@@ -13,14 +13,12 @@ describe('TodoService', () => {
     // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
     // @ts-ignore
     const todoService = new TodoService(todoRepositoryMock);
+    const sutTypes = { todoRepositoryMock, sut: todoService };
 
-    return {
-      todoRepositoryMock,
-      sut: todoService,
-    };
+    return sutTypes;
   };
 
-  it('should create a todo', async () => {
+  it('should create a TODO', async () => {
     const { sut, todoRepositoryMock } = makeSut();
     const task = 'task';
 
@@ -29,13 +27,13 @@ describe('TodoService', () => {
     expect(todoRepositoryMock.save).toHaveBeenCalledWith(TodoRepository.todo);
   });
 
-  it('should get all todos', async () => {
+  it('should get all TODOS', async () => {
     const { sut } = makeSut();
 
     expect(await sut.getAllTodos()).toMatchObject([TodoRepository.todo]);
   });
 
-  it('should get a todo by id', async () => {
+  it('should get a TODO by id', async () => {
     const { sut, todoRepositoryMock } = makeSut();
 
     expect(await sut.getTodoById(TodoRepository.todo.id)).toBe(
@@ -47,7 +45,7 @@ describe('TodoService', () => {
     );
   });
 
-  it('should remove a todo by id', async () => {
+  it('should remove a TODO by id', async () => {
     const { sut, todoRepositoryMock } = makeSut();
 
     expect(await sut.removeTodoById(TodoRepository.todo.id)).toBe(true);
@@ -57,7 +55,7 @@ describe('TodoService', () => {
     );
   });
 
-  it('should update a todo', async () => {
+  it('should update a TODO', async () => {
     const { sut, todoRepositoryMock } = makeSut();
     const todoUpdateInput: TodoUpdateInput = { done: true, task: 'newTask' };
 

@@ -1,5 +1,5 @@
 export class TodoRepository {
-  static todo = {
+  static readonly todo = {
     id: 'id',
     done: false,
     task: 'task',

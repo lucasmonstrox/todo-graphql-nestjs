@@ -137,7 +137,7 @@ docker exec -it local_db psql -U local_dev local_db
 ## Health check
 
 After the application starts, go to `http://localhost:$PORT/health` to check
-database status
+health indicators statuses
 
 Observartion: You must change `$PORT` for the port to be used in your
 environment
@@ -180,7 +180,8 @@ Observation: Some TODO's are spread across the code and need to be fixed ASAP
 
 - [compodoc](https://compodoc.app) - The missing documentation tool for your
   Angular application
-- [jest](https://jestjs.io) - Jest is a delightful JavaScript Testing Framework with a focus on simplicity
+- [jest](https://jestjs.io) - Jest is a delightful JavaScript Testing Framework
+  with a focus on simplicity
 - [nestjs](https://nestjs.com) - A progressive Node.js framework for building
   efficient, reliable and scalable server-side applications
 - [supertest](https://visionmedia.github.io/superagent) - Small progressive

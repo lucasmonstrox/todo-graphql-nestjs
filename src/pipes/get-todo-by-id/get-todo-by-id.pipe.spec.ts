@@ -20,7 +20,7 @@ describe('GetTodoByIdPipe', () => {
     return sutTypes;
   };
 
-  it("should throw a BadRequestException when todo doesn't exist", async () => {
+  it("should throw a BadRequestException when TODO doesn't was not found", async () => {
     const { sut, todoServiceMock } = makeSut();
 
     todoServiceMock.getTodoById.mockImplementationOnce(() => null);
@@ -30,7 +30,7 @@ describe('GetTodoByIdPipe', () => {
     );
   });
 
-  it('should transform into a todo', async () => {
+  it('should transform into a TODO', async () => {
     const { sut, todoServiceMock } = makeSut();
 
     expect(await sut.transform(TodoRepository.todo.id)).toBe(

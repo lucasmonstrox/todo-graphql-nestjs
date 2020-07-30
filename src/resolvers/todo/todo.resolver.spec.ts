@@ -33,7 +33,7 @@ describe('TodoResolver', () => {
     expect(await sut.getAllTodos()).toMatchObject([TodoRepository.todo]);
   });
 
-  it('should get a TODO by id', async () => {
+  it('should get a TODO', async () => {
     const { sut, todoServiceMock } = makeSut();
 
     expect(await sut.getTodoById(TodoRepository.todo.id)).toBe(
@@ -45,7 +45,7 @@ describe('TodoResolver', () => {
     );
   });
 
-  it('should get a TODO by id', async () => {
+  it('should get a TODO', async () => {
     const { sut, todoServiceMock } = makeSut();
 
     expect(await sut.removeTodoById(TodoRepository.todo.id)).toBe(true);
@@ -55,7 +55,7 @@ describe('TodoResolver', () => {
     );
   });
 
-  it('should remove a TODO by id', async () => {
+  it('should remove a TODO', async () => {
     const { sut, todoServiceMock } = makeSut();
 
     expect(await sut.removeTodoById(TodoRepository.todo.id)).toBe(true);

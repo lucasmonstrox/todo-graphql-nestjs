@@ -115,7 +115,7 @@ describe('TodoResolver (e2e)', () => {
         .expect(200);
     });
 
-    it('should create a TODO and escape html entities and trim', async () => {
+    it('should create a TODO and escape html entities and trim spaces', async () => {
       return request(app.getHttpServer())
         .post('/graphql')
         .send({
@@ -182,7 +182,7 @@ describe('TodoResolver (e2e)', () => {
         .expect(200);
     });
 
-    it('should return a TODO by id', async () => {
+    it('should get a TODO', async () => {
       return request(app.getHttpServer())
         .post('/graphql')
         .send({
@@ -222,7 +222,7 @@ describe('TodoResolver (e2e)', () => {
 
     const operationName = 'GetAllTodos';
 
-    it("should return a list of TODO's", async () => {
+    it('should return a list of TODOS', async () => {
       return request(app.getHttpServer())
         .post('/graphql')
         .send({
@@ -356,7 +356,7 @@ describe('TodoResolver (e2e)', () => {
         .expect(200);
     });
 
-    it('should update a TODO and escape html entities and trim', async () => {
+    it('should update a TODO and escape html entities and trim spaces', async () => {
       return request(app.getHttpServer())
         .post('/graphql')
         .send({
@@ -415,7 +415,7 @@ describe('TodoResolver (e2e)', () => {
         .expect(200);
     });
 
-    it('should not remove a TODO when inexistent', async () => {
+    it('should not remove a TODO when giving inexistent id', async () => {
       return request(app.getHttpServer())
         .post('/graphql')
         .send({

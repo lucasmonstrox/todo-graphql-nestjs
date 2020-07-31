@@ -1,11 +1,7 @@
-import {
-  Inject,
-  Injectable,
-  NotFoundException,
-  PipeTransform,
-} from '@nestjs/common';
+import { Inject, Injectable, PipeTransform } from '@nestjs/common';
 
 import { Todo } from 'entities/todo.entity';
+import { TodoNotFoundException } from 'exceptions/todo-not-foud.exception';
 import { ITodoService } from 'interfaces/todo.interface';
 import { TodoService } from 'services/todo/todo.service';
 
@@ -22,7 +18,7 @@ export class GetTodoByIdPipe implements PipeTransform {
 
     if (todoWasNotFound) {
       // TODO: Add context exception
-      throw new NotFoundException(`Todo with id "${id}" was not found`);
+      throw new TodoNotFoundException(id);
     }
 
     return todo;

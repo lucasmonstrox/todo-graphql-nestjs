@@ -1,5 +1,4 @@
-import { NotFoundException } from '@nestjs/common';
-
+import { TodoNotFoundException } from 'exceptions/todo-not-foud.exception';
 import { TodoRepository } from 'repositories/todo/__mocks__/todo.repository';
 import { TodoService } from 'services/todo/__mocks__/todo.service';
 import { GetTodoByIdPipe } from './get-todo-by-id.pipe';
@@ -26,7 +25,7 @@ describe('GetTodoByIdPipe', () => {
     todoServiceMock.getTodoById.mockImplementationOnce(() => null);
 
     await expect(sut.transform(TodoRepository.todo.id)).rejects.toThrow(
-      NotFoundException,
+      TodoNotFoundException,
     );
   });
 

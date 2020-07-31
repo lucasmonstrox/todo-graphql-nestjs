@@ -8,4 +8,4 @@ const graphqlConfig: GqlModuleOptions = {
   playground: isDevelopment,
 };
 
-export default graphqlConfig;
+export = graphqlConfig;

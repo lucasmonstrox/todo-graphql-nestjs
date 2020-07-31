@@ -1,12 +1,12 @@
-# Description
+# 📝 Description
 
-A TODO api boilerplate
+A TODO GraphQL API boilerplate
 
-# Features
+# 🎉 Features
 
-- TODOS: Creating, editing and listing TODO's
+- TODOS: CRUD around TODOS
 - ORM: TypeORM on PostgreSQL
-- Graphql + Playground: TypeGraphQL
+- Graphql: TypeGraphQL
 - Cache System: type-cacheable
 - Logging: NestJS default logger
 - Sanitizer: class-sanitizer
@@ -16,12 +16,7 @@ A TODO api boilerplate
 - Code format and lint: eslint + prettier
 - Documentation: Compodoc
 
-# Code style
-
-The current codebase is following `clean code`, `SOLID` and some of
-`design patterns`
-
-# Installation
+# 🧰 Installation
 
 ## Prerequisites
 
@@ -30,9 +25,15 @@ The current codebase is following `clean code`, `SOLID` and some of
 - Globally `yarn` & `nest` commands
 - Docker
 
+Install yarn packages before continue
+
+```bash
+yarn
+```
+
 ## Setting up PostgreSQL database
 
-- This is will make a new PostgreSQL running in the standard port 5432
+- This is will make a new PostgreSQL running in the standard port `5432`
 - Please shutdown any previous conflicting PostgreSQL instances before starting
   this
 
@@ -66,9 +67,9 @@ Run initial migrations to set up initial database tables
 yarn typeorm migration:run
 ```
 
-# Development
+# ⌨ Development
 
-## Running the app
+## ⚙ Running the app
 
 ```bash
 # development
@@ -81,7 +82,16 @@ yarn start:dev
 yarn start:prod
 ```
 
-## Running tests
+## 🎮 Playground & 🩺 Health check
+
+After the application starts, go to `http://localhost:$PORT/health` to check
+health indicators statuses or `http://localhost:$PORT/graphql` to access graphql
+playground
+
+Observartion: You must change `$PORT` for the port to be used in your
+environment
+
+## 🧪 Running tests
 
 ```bash
 # unit tests
@@ -94,19 +104,23 @@ yarn test:e2e
 yarn test:cov
 ```
 
-## Lint
+After executing `yarn test:cov`, the `coverage` folder will be generated with
+coverage details
+
+## 📏 Lint
 
 Linting codebase
 
 ```bash
+# issues are automatically fixed
 yarn lint
 ```
 
-## Migrations
+# 🧳 Migrations
 
 Run `typeorm` CLI
 
-### Automatically generating migrations
+## Automatically generating migrations
 
 You can generate migration files
 
@@ -114,11 +128,11 @@ You can generate migration files
 2. You have an up-to-date local development database
 
 ```bash
-# Creates a file under src/migrations/
+# creates a file under src/migrations/
 yarn typeorm migration:generate -n MigrationName
 ```
 
-### Apply migrations against the local database
+## Apply migrations against the local database
 
 ```bash
 yarn typeorm migration:run
@@ -134,27 +148,20 @@ docker exec -it local_db psql -U local_dev local_db
 \d 'todo'
 ```
 
-## Health check
+# 📖 Documentation
 
-After the application starts, go to `http://localhost:$PORT/health` to check
-health indicators statuses
-
-Observartion: You must change `$PORT` for the port to be used in your
-environment
-
-## Documentation
-
-Generating codebase documentation
+Generating codebase documentation(served at `http://127.0.0.1:8080`)
 
 ```bash
 yarn doc
 ```
 
-# Deployment
+# 📦 Building
 
-## Building
+Before building application to production, make sure environment variables are
+applied correctly
 
-Building to production
+Building for production
 
 ```bash
 yarn build
@@ -166,7 +173,7 @@ Running on production
 yarn start:prod
 ```
 
-# TODO
+# ✅ TODO
 
 [ ] Add code of conduct file to docs  
 [ ] Add issue template file to docs  
@@ -174,9 +181,14 @@ yarn start:prod
 [schema-validation](https://docs.nestjs.com/techniques/configuration#schema-validation)  
 [ ] Track errors in production. Use [sentry.io](https://sentry.io) or similar
 
-Observation: Some TODO's are spread across the code and need to be fixed ASAP
+Observation: Some TODOS are spread across the code and need to be fixed ASAP
 
-# Built with
+# 💻 Code style
+
+The current code style is following `clean code`, some `design patterns` and
+`SOLID` principles
+
+# 🛠 Built with
 
 - [compodoc](https://compodoc.app) - The missing documentation tool for your
   Angular application
@@ -191,16 +203,11 @@ Observation: Some TODO's are spread across the code and need to be fixed ASAP
 - [typeorm](https://typeorm.io) - Amazing ORM for TypeScript and JavaScript
   (ES7, ES6, ES5)
 
-# Authors
+# 👷 Authors
 
-- [Lucas Silva](https://github.com/luqezman) - Developer
+- [**Lucas Silva**](https://github.com/luqezman) joao.galiano.silva@gmail.com -
+  Developer
+- [**Thiago Butignon**](https://github.com/thiagobutignon) - Reviewer
 
-See also the list of
-[contributors](https://github.com/luqezman/todo-graphql-nestjs/contributors) who
-participated in this project.
-
-# Acknowledgments
-
-- Coffee
-- Inspiration
-- Self-Motivation
+See also the list of [contributors](./contributors) who participated in this
+project.

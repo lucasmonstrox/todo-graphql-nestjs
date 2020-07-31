@@ -177,7 +177,6 @@ yarn start:prod
 
 [ ] Add code of conduct file  
 [ ] Add docker section to make project working through docker  
-[ ] Add latency/performance section, also include logs in output  
 [ ] Add project files structure  
 [ ] Add issue template file  
 [ ] Check if env variables are loading correctly using
@@ -212,5 +211,5 @@ The current code style is following `clean code`, some `design patterns` and
   Developer
 - [**Thiago Butignon**](https://github.com/thiagobutignon) - Reviewer
 
-See also the list of [contributors](./contributors) who participated in this
+See also the list of [contributors](./graphs/contributors) who participated in this
 project.

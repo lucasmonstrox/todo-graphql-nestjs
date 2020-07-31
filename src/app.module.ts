@@ -11,8 +11,8 @@ import * as redis from 'redis';
 
 import graphqlConfig from './configs/graphql.config';
 import ormConfig from './configs/orm.config';
-import redisConfig from 'configs/redis.config';
-import { IS_TESTING } from 'consts/envs';
+import redisConfig from './configs/redis.config';
+import { isTesting } from './consts/envs';
 import { TodoRepository } from './repositories/todo/todo.repository';
 import { TodoResolver } from './resolvers/todo/todo.resolver';
 import { TodoService } from './services/todo/todo.service';
@@ -42,7 +42,7 @@ import { TodoService } from './services/todo/todo.service';
 })
 export class AppModule {
   onModuleInit() {
-    const isNotTestingEnvironment = !IS_TESTING;
+    const isNotTestingEnvironment = !isTesting;
 
     // Do not register adapter on testing environment. Avoid caching purposes.
     if (isNotTestingEnvironment) {

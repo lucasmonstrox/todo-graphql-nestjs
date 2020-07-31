@@ -1,8 +1,8 @@
 import { ConnectionOptions } from 'typeorm';
 
-import { ENV, IS_TESTING } from 'consts/envs';
+import { environment, isTesting } from 'consts/envs';
 
-const DATABASES = {
+const databases = {
   development: 'local_db',
   test: 'local_db_test',
 };
@@ -13,10 +13,10 @@ const ormConfig: ConnectionOptions = {
   port: process.env.DB_PORT ? +process.env.DB_PORT : 5432,
   username: process.env.DB_USERNAME || 'local_dev',
   password: process.env.DB_PASSWORD || 'local_dev',
-  database: process.env.DB_DATABASE || DATABASES[ENV],
+  database: process.env.DB_DATABASE || databases[environment],
   entities: [__dirname + '/../**/*.entity{.ts,.js}'],
-  dropSchema: IS_TESTING,
-  synchronize: IS_TESTING,
+  dropSchema: isTesting,
+  synchronize: isTesting,
   migrations: [__dirname + '/../migrations/**/*{.ts,.js}'],
   migrationsRun: false,
   cli: {

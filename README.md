@@ -176,6 +176,9 @@ yarn start:prod
 # ✅ TODO
 
 [ ] Add code of conduct file to docs  
+[ ] Add docker section to make project working throung docker  
+[ ] Add latency/performance section, also include logs in output  
+[ ] Add project files structure  
 [ ] Add issue template file to docs  
 [ ] Check if env variables are loading correctly using
 [schema-validation](https://docs.nestjs.com/techniques/configuration#schema-validation)  

@@ -211,5 +211,5 @@ The current code style is following `clean code`, some `design patterns` and
   Developer
 - [**Thiago Butignon**](https://github.com/thiagobutignon) - Reviewer
 
-See also the list of [contributors](../graphs/contributors) who participated in this
+See also the list of [contributors](../../graphs/contributors) who participated in this
 project.

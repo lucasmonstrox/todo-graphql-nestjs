@@ -1,6 +1,6 @@
 # 📝 Description
 
-A TODO GraphQL API boilerplate
+> A TODO GraphQL API boilerplate
 
 # 🎉 Features
 

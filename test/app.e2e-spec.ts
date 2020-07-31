@@ -1,17 +1,16 @@
-import {
-  BadRequestException,
-  INestApplication,
-  ValidationPipe,
-} from '@nestjs/common';
+import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
 import request from 'supertest';
 
 import { AppModule } from 'app.module';
+import { configureApp } from 'configure';
 
 describe('TodoResolver (e2e)', () => {
   let app: INestApplication;
   let createdTodoId: string;
   let createdTodoIdWithHtmlEntities: string;
+
+  const graphlEndpoint = '/graphql';
   const nonExistentTodoId = 'd984ea01-f5fc-4559-854c-322c5e161c51';
 
   beforeAll(async () => {
@@ -21,12 +20,7 @@ describe('TodoResolver (e2e)', () => {
 
     app = moduleFixture.createNestApplication();
 
-    app.useGlobalPipes(
-      new ValidationPipe({
-        exceptionFactory: errors => new BadRequestException(errors),
-        transform: true,
-      }),
-    );
+    configureApp(app);
 
     await app.init();
   });
@@ -49,13 +43,15 @@ describe('TodoResolver (e2e)', () => {
     const operationName = 'CreateTodo';
 
     it('should not create a TODO when task is empty', async () => {
+      const payload = {
+        operationName,
+        query: createTodoMutation,
+        variables: { input: { task: '' } },
+      };
+
       return request(app.getHttpServer())
-        .post('/graphql')
-        .send({
-          operationName,
-          query: createTodoMutation,
-          variables: { input: { task: '' } },
-        })
+        .post(graphlEndpoint)
+        .send(payload)
         .expect(({ body: { errors } }) => {
           expect(errors).toHaveProperty(
             '0.extensions.exception.response.message.0.constraints.isNotEmpty',
@@ -66,18 +62,20 @@ describe('TodoResolver (e2e)', () => {
     });
 
     it('should not create a TODO when task length is 100 or more', async () => {
-      return request(app.getHttpServer())
-        .post('/graphql')
-        .send({
-          operationName,
-          query: createTodoMutation,
-          variables: {
-            input: {
-              task:
-                '12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901',
-            },
+      const payload = {
+        operationName,
+        query: createTodoMutation,
+        variables: {
+          input: {
+            task:
+              '12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901',
           },
-        })
+        },
+      };
+
+      return request(app.getHttpServer())
+        .post(graphlEndpoint)
+        .send(payload)
         .expect(({ body: { errors } }) => {
           expect(errors).toHaveProperty(
             '0.extensions.exception.response.message.0.constraints.maxLength',
@@ -88,17 +86,19 @@ describe('TodoResolver (e2e)', () => {
     });
 
     it('should create a TODO', async () => {
-      return request(app.getHttpServer())
-        .post('/graphql')
-        .send({
-          operationName,
-          query: createTodoMutation,
-          variables: {
-            input: {
-              task: 'task',
-            },
+      const payload = {
+        operationName,
+        query: createTodoMutation,
+        variables: {
+          input: {
+            task: 'task',
           },
-        })
+        },
+      };
+
+      return request(app.getHttpServer())
+        .post(graphlEndpoint)
+        .send(payload)
         .expect(
           ({
             body: {
@@ -116,17 +116,19 @@ describe('TodoResolver (e2e)', () => {
     });
 
     it('should create a TODO and escape html entities and trim spaces', async () => {
-      return request(app.getHttpServer())
-        .post('/graphql')
-        .send({
-          operationName,
-          query: createTodoMutation,
-          variables: {
-            input: {
-              task: ' <script></script>  ',
-            },
+      const payload = {
+        operationName,
+        query: createTodoMutation,
+        variables: {
+          input: {
+            task: ' <script></script>  ',
           },
-        })
+        },
+      };
+
+      return request(app.getHttpServer())
+        .post(graphlEndpoint)
+        .send(payload)
         .expect(
           ({
             body: {
@@ -137,6 +139,7 @@ describe('TodoResolver (e2e)', () => {
 
             expect(createTodo).toHaveProperty('done', false);
             expect(createTodo).toHaveProperty('id');
+
             expect(createTodo).toHaveProperty(
               'task',
               '&lt;script&gt;&lt;&#x2F;script&gt;',
@@ -161,15 +164,17 @@ describe('TodoResolver (e2e)', () => {
     const operationName = 'GetTodoById';
 
     it('should TODO be null when giving inexistent id', async () => {
+      const payload = {
+        operationName,
+        query: getTodoByIdQuery,
+        variables: {
+          todoId: nonExistentTodoId,
+        },
+      };
+
       return request(app.getHttpServer())
-        .post('/graphql')
-        .send({
-          operationName,
-          query: getTodoByIdQuery,
-          variables: {
-            todoId: nonExistentTodoId,
-          },
-        })
+        .post(graphlEndpoint)
+        .send(payload)
         .expect(
           ({
             body: {
@@ -183,15 +188,17 @@ describe('TodoResolver (e2e)', () => {
     });
 
     it('should get a TODO', async () => {
+      const payload = {
+        operationName,
+        query: getTodoByIdQuery,
+        variables: {
+          todoId: createdTodoId,
+        },
+      };
+
       return request(app.getHttpServer())
-        .post('/graphql')
-        .send({
-          operationName,
-          query: getTodoByIdQuery,
-          variables: {
-            todoId: createdTodoId,
-          },
-        })
+        .post(graphlEndpoint)
+        .send(payload)
         .expect(
           ({
             body: {
@@ -210,25 +217,23 @@ describe('TodoResolver (e2e)', () => {
   });
 
   describe('getAllTodos', () => {
-    const getAllTodosQuery = `
-    query GetAllTodos {
-      getAllTodos {
-        done
-        id
-        task
-      }
-    }
-    `;
-
-    const operationName = 'GetAllTodos';
-
     it('should return a list of TODOS', async () => {
+      const payload = {
+        operationName: 'GetAllTodos',
+        query: `
+        query GetAllTodos {
+          getAllTodos {
+            done
+            id
+            task
+          }
+        }
+        `,
+      };
+
       return request(app.getHttpServer())
-        .post('/graphql')
-        .send({
-          operationName,
-          query: getAllTodosQuery,
-        })
+        .post(graphlEndpoint)
+        .send(payload)
         .expect(
           ({
             body: {
@@ -267,16 +272,18 @@ describe('TodoResolver (e2e)', () => {
     const operationName = 'UpdateTodo';
 
     it('should not update a TODO when giving inexistent id', async () => {
+      const payload = {
+        operationName,
+        query: updateTodoMutation,
+        variables: {
+          input: { task: 'updatedTask' },
+          todoId: nonExistentTodoId,
+        },
+      };
+
       return request(app.getHttpServer())
-        .post('/graphql')
-        .send({
-          operationName,
-          query: updateTodoMutation,
-          variables: {
-            input: { task: 'updatedTask' },
-            todoId: nonExistentTodoId,
-          },
-        })
+        .post(graphlEndpoint)
+        .send(payload)
         .expect(({ body: { errors } }) => {
           expect(errors).toHaveProperty(
             '0.message',
@@ -287,16 +294,18 @@ describe('TodoResolver (e2e)', () => {
     });
 
     it('should not update a TODO when task is empty', async () => {
+      const payload = {
+        operationName,
+        query: updateTodoMutation,
+        variables: {
+          input: { task: '' },
+          todoId: createdTodoId,
+        },
+      };
+
       return request(app.getHttpServer())
-        .post('/graphql')
-        .send({
-          operationName,
-          query: updateTodoMutation,
-          variables: {
-            input: { task: '' },
-            todoId: createdTodoId,
-          },
-        })
+        .post(graphlEndpoint)
+        .send(payload)
         .expect(({ body: { errors } }) => {
           expect(errors).toHaveProperty(
             '0.extensions.exception.response.message.0.constraints.isNotEmpty',
@@ -307,19 +316,21 @@ describe('TodoResolver (e2e)', () => {
     });
 
     it('should not update TODO when task length is 100 or more', async () => {
-      return request(app.getHttpServer())
-        .post('/graphql')
-        .send({
-          operationName,
-          query: updateTodoMutation,
-          variables: {
-            input: {
-              task:
-                '12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901',
-            },
-            todoId: createdTodoId,
+      const payload = {
+        operationName,
+        query: updateTodoMutation,
+        variables: {
+          input: {
+            task:
+              '12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901',
           },
-        })
+          todoId: createdTodoId,
+        },
+      };
+
+      return request(app.getHttpServer())
+        .post(graphlEndpoint)
+        .send(payload)
         .expect(({ body: { errors } }) => {
           expect(errors).toHaveProperty(
             '0.extensions.exception.response.message.0.constraints.maxLength',
@@ -330,16 +341,18 @@ describe('TodoResolver (e2e)', () => {
     });
 
     it('should update a TODO', async () => {
+      const payload = {
+        operationName,
+        query: updateTodoMutation,
+        variables: {
+          input: { done: true, task: 'updatedTask' },
+          todoId: createdTodoId,
+        },
+      };
+
       return request(app.getHttpServer())
-        .post('/graphql')
-        .send({
-          operationName,
-          query: updateTodoMutation,
-          variables: {
-            input: { done: true, task: 'updatedTask' },
-            todoId: createdTodoId,
-          },
-        })
+        .post(graphlEndpoint)
+        .send(payload)
         .expect(
           ({
             body: {
@@ -357,16 +370,18 @@ describe('TodoResolver (e2e)', () => {
     });
 
     it('should update a TODO and escape html entities and trim spaces', async () => {
+      const payload = {
+        operationName,
+        query: updateTodoMutation,
+        variables: {
+          input: { done: true, task: ' <script></script> ' },
+          todoId: createdTodoId,
+        },
+      };
+
       return request(app.getHttpServer())
-        .post('/graphql')
-        .send({
-          operationName,
-          query: updateTodoMutation,
-          variables: {
-            input: { done: true, task: ' <script></script> ' },
-            todoId: createdTodoId,
-          },
-        })
+        .post(graphlEndpoint)
+        .send(payload)
         .expect(
           ({
             body: {
@@ -394,15 +409,17 @@ describe('TodoResolver (e2e)', () => {
     const operationName = 'RemoveTodoById';
 
     it('should remove a TODO', async () => {
+      const payload = {
+        operationName,
+        query: removeTodoByIdMutation,
+        variables: {
+          todoId: createdTodoId,
+        },
+      };
+
       return request(app.getHttpServer())
-        .post('/graphql')
-        .send({
-          operationName,
-          query: removeTodoByIdMutation,
-          variables: {
-            todoId: createdTodoId,
-          },
-        })
+        .post(graphlEndpoint)
+        .send(payload)
         .expect(
           ({
             body: {
@@ -416,15 +433,17 @@ describe('TodoResolver (e2e)', () => {
     });
 
     it('should not remove a TODO when giving inexistent id', async () => {
+      const payload = {
+        operationName,
+        query: removeTodoByIdMutation,
+        variables: {
+          todoId: nonExistentTodoId,
+        },
+      };
+
       return request(app.getHttpServer())
-        .post('/graphql')
-        .send({
-          operationName,
-          query: removeTodoByIdMutation,
-          variables: {
-            todoId: nonExistentTodoId,
-          },
-        })
+        .post(graphlEndpoint)
+        .send(payload)
         .expect(
           ({
             body: {

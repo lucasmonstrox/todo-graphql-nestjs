@@ -17,7 +17,6 @@ export class GetTodoByIdPipe implements PipeTransform {
     const todoWasNotFound = !todo;
 
     if (todoWasNotFound) {
-      // TODO: Add context exception
       throw new TodoNotFoundException(id);
     }
 

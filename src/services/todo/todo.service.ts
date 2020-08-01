@@ -10,8 +10,10 @@ import { TodoRepository } from 'repositories/todo/todo.repository';
 export class TodoService implements ITodoService {
   constructor(private readonly todoRepository: TodoRepository) {}
 
-  // TODO: Cache it immediately after create. Not possible yet since cache key creation are based on parameters instead of method return
-  @CacheClear({ cacheKey: 'todos' })
+  @CacheUpdate({
+    cacheKey: (args, ctx, todo) => todo.id,
+    cacheKeysToClear: 'todos',
+  })
   async createTodo(task: string): Promise<Todo> {
     const todoAsEntity = await this.todoRepository.create({ task });
     const todo = await this.todoRepository.save(todoAsEntity);
@@ -42,7 +44,7 @@ export class TodoService implements ITodoService {
   }
 
   @CacheUpdate({
-    cacheKey: ([todo]: [Todo, TodoUpdateInput]) => todo.id,
+    cacheKey: (args, ctx, todo) => todo.id,
     cacheKeysToClear: 'todos',
   })
   async updateTodo(

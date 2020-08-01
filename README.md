@@ -209,7 +209,13 @@ The current code style is following `clean code`, some `design patterns` and
 
 - [**Lucas Silva**](https://github.com/luqezman) joao.galiano.silva@gmail.com -
   Developer
-- [**Thiago Butignon**](https://github.com/thiagobutignon) thiago@betaquark.com - Reviewer
+- [**Thiago Butignon**](https://github.com/thiagobutignon)
+  thiago@betaquark.com - Reviewer
 
-See also the list of [contributors](../../graphs/contributors) who participated in this
-project.
+See also the list of [contributors](../../graphs/contributors) who participated
+in this project
+
+# 📝 License
+
+Copyright © 2020 [**Lucas Silva**](https://github.com/luqezman)  
+This project is [MIT](https://opensource.org/licenses/MIT) licensed

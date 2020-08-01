@@ -1,5 +1,6 @@
 import { Inject } from '@nestjs/common';
 import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Cacheable, CacheClear, CacheUpdate } from '@type-cacheable/core';
 
 import { Todo } from 'entities/todo.entity';
 import { TodoCreateInput } from 'inputs/todo-create.input';
@@ -17,6 +18,10 @@ export class TodoResolver {
   ) {}
 
   @Mutation(() => Todo)
+  @CacheUpdate({
+    cacheKey: (args, ctx, todo) => todo.id,
+    cacheKeysToClear: 'todos',
+  })
   async createTodo(
     @Args('input', SanitizePipe) { task }: TodoCreateInput,
   ): Promise<Todo> {
@@ -26,6 +31,7 @@ export class TodoResolver {
   }
 
   @Query(() => [Todo])
+  @Cacheable({ cacheKey: 'todos' })
   async getAllTodos(): Promise<Todo[]> {
     const todos = await this.todoService.getAllTodos();
 
@@ -33,6 +39,7 @@ export class TodoResolver {
   }
 
   @Query(() => Todo, { nullable: true })
+  @Cacheable({ cacheKey: ([id]: [string]) => id })
   async getTodoById(
     @Args('id', { type: () => ID }) id: string,
   ): Promise<Todo | null> {
@@ -42,6 +49,7 @@ export class TodoResolver {
   }
 
   @Mutation(() => Boolean)
+  @CacheClear({ cacheKey: ([id]: [string]) => [id, 'todos'] })
   async removeTodoById(
     @Args('id', { type: () => ID }) id: string,
   ): Promise<boolean> {
@@ -51,11 +59,18 @@ export class TodoResolver {
   }
 
   @Mutation(() => Todo)
+  @CacheUpdate({
+    cacheKey: (args, ctx, todo) => todo.id,
+    cacheKeysToClear: 'todos',
+  })
   async updateTodo(
     @Args('id', { type: () => ID }, GetTodoByIdPipe) todo: Todo,
     @Args('input', SanitizePipe) todoUpdateInput: TodoUpdateInput,
   ): Promise<Todo> {
-    const updatedTodo = await this.todoService.updateTodo(todo, todoUpdateInput);
+    const updatedTodo = await this.todoService.updateTodo(
+      todo,
+      todoUpdateInput,
+    );
 
     return updatedTodo;
   }

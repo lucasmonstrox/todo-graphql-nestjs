@@ -1,5 +1,4 @@
 import { Injectable } from '@nestjs/common';
-import { Cacheable, CacheClear, CacheUpdate } from '@type-cacheable/core';
 
 import { Todo } from 'entities/todo.entity';
 import { TodoUpdateInput } from 'inputs/todo-update.input';
@@ -10,10 +9,6 @@ import { TodoRepository } from 'repositories/todo/todo.repository';
 export class TodoService implements ITodoService {
   constructor(private readonly todoRepository: TodoRepository) {}
 
-  @CacheUpdate({
-    cacheKey: (args, ctx, todo) => todo.id,
-    cacheKeysToClear: 'todos',
-  })
   async createTodo(task: string): Promise<Todo> {
     const todoAsEntity = await this.todoRepository.create({ task });
     const todo = await this.todoRepository.save(todoAsEntity);
@@ -21,21 +16,18 @@ export class TodoService implements ITodoService {
     return todo;
   }
 
-  @Cacheable({ cacheKey: 'todos' })
   async getAllTodos(): Promise<Todo[]> {
     const todos = await this.todoRepository.find();
 
     return todos;
   }
 
-  @Cacheable({ cacheKey: ([id]: [string]) => id })
   async getTodoById(id: string): Promise<Todo | null> {
     const todo = await this.todoRepository.findOne(id);
 
     return todo;
   }
 
-  @CacheClear({ cacheKey: ([id]: [string]) => [id, 'todos'] })
   async removeTodoById(id: string): Promise<boolean> {
     const { affected } = await this.todoRepository.delete(id);
     const hasBeenDeleted = affected > 0;
@@ -43,10 +35,6 @@ export class TodoService implements ITodoService {
     return hasBeenDeleted;
   }
 
-  @CacheUpdate({
-    cacheKey: (args, ctx, todo) => todo.id,
-    cacheKeysToClear: 'todos',
-  })
   async updateTodo(
     todo: Todo,
     todoUpdateInput: TodoUpdateInput,

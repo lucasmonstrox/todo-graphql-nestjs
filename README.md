@@ -179,6 +179,7 @@ yarn start:prod
 [ ] Add docker section to make project working through docker  
 [ ] Add project files structure  
 [ ] Add issue template file  
+[ ] Add typeorm-seeding within seeds
 [ ] Check if env variables are loading correctly using
 [schema-validation](https://docs.nestjs.com/techniques/configuration#schema-validation)  
 [ ] Track errors in production. Use [sentry.io](https://sentry.io) or similar

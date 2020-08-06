@@ -1,9 +1,9 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@ObjectType()
-@Entity()
-export class Todo {
+@ObjectType('Todo')
+@Entity('todo')
+export class TodoEntity {
   @Field()
   @Column({ default: false, nullable: false })
   done: boolean;

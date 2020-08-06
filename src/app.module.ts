@@ -10,7 +10,7 @@ import { useAdapter } from '@type-cacheable/redis-adapter';
 import * as redis from 'redis';
 
 import graphqlConfig from './configs/graphql.config';
-import ormConfig from './configs/orm.config';
+import ormConfig from './configs/typeorm.config';
 import redisConfig from './configs/redis.config';
 import { isTesting } from './consts/envs';
 import { TodoRepository } from './repositories/todo/todo.repository';

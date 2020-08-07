@@ -1,6 +1,6 @@
 import { EntityRepository, Repository } from 'typeorm';
 
-import { Todo } from 'entities/todo.entity';
+import { TodoEntity } from 'entities/todo.entity';
 
-@EntityRepository(Todo)
-export class TodoRepository extends Repository<Todo> {}
+@EntityRepository(TodoEntity)
+export class TodoRepository extends Repository<TodoEntity> {}

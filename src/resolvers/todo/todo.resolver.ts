@@ -1,7 +1,8 @@
 import { Inject } from '@nestjs/common';
 import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
+import { Cacheable, CacheClear, CacheUpdate } from '@type-cacheable/core';
 
-import { Todo } from 'entities/todo.entity';
+import { TodoEntity } from 'entities/todo.entity';
 import { TodoCreateInput } from 'inputs/todo-create.input';
 import { TodoUpdateInput } from 'inputs/todo-update.input';
 import { ITodoService } from 'interfaces/todo.interface';
@@ -9,39 +10,46 @@ import { GetTodoByIdPipe } from 'pipes/get-todo-by-id/get-todo-by-id.pipe';
 import { SanitizePipe } from 'pipes/sanitize/sanitize.pipe';
 import { TodoService } from 'services/todo/todo.service';
 
-@Resolver(() => Todo)
+@Resolver(() => TodoEntity)
 export class TodoResolver {
   constructor(
     @Inject(TodoService)
     private readonly todoService: ITodoService,
   ) {}
 
-  @Mutation(() => Todo)
+  @Mutation(() => TodoEntity)
+  @CacheUpdate({
+    cacheKey: (args, ctx, todo: TodoEntity) => todo.id,
+    cacheKeysToClear: 'todos',
+  })
   async createTodo(
     @Args('input', SanitizePipe) { task }: TodoCreateInput,
-  ): Promise<Todo> {
+  ): Promise<TodoEntity> {
     const todo = await this.todoService.createTodo(task);
 
     return todo;
   }
 
-  @Query(() => [Todo])
-  async getAllTodos(): Promise<Todo[]> {
+  @Query(() => [TodoEntity])
+  @Cacheable({ cacheKey: 'todos' })
+  async getAllTodos(): Promise<TodoEntity[]> {
     const todos = await this.todoService.getAllTodos();
 
     return todos;
   }
 
-  @Query(() => Todo, { nullable: true })
+  @Query(() => TodoEntity, { nullable: true })
+  @Cacheable({ cacheKey: ([id]: [string]) => id })
   async getTodoById(
     @Args('id', { type: () => ID }) id: string,
-  ): Promise<Todo | null> {
+  ): Promise<TodoEntity | null> {
     const todo = await this.todoService.getTodoById(id);
 
     return todo;
   }
 
   @Mutation(() => Boolean)
+  @CacheClear({ cacheKey: ([id]: [string]) => [id, 'todos'] })
   async removeTodoById(
     @Args('id', { type: () => ID }) id: string,
   ): Promise<boolean> {
@@ -50,12 +58,19 @@ export class TodoResolver {
     return isDeleted;
   }
 
-  @Mutation(() => Todo)
+  @Mutation(() => TodoEntity)
+  @CacheUpdate({
+    cacheKey: (args, ctx, todo: TodoEntity) => todo.id,
+    cacheKeysToClear: 'todos',
+  })
   async updateTodo(
-    @Args('id', { type: () => ID }, GetTodoByIdPipe) todo: Todo,
+    @Args('id', { type: () => ID }, GetTodoByIdPipe) todo: TodoEntity,
     @Args('input', SanitizePipe) todoUpdateInput: TodoUpdateInput,
-  ): Promise<Todo> {
-    const updatedTodo = await this.todoService.updateTodo(todo, todoUpdateInput);
+  ): Promise<TodoEntity> {
+    const updatedTodo = await this.todoService.updateTodo(
+      todo,
+      todoUpdateInput,
+    );
 
     return updatedTodo;
   }

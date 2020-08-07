@@ -1,11 +1,11 @@
 import { Field, ID, ObjectType } from '@nestjs/graphql';
 import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 
-@ObjectType()
-@Entity()
-export class Todo {
+@ObjectType('Todo')
+@Entity('todo')
+export class TodoEntity {
   @Field()
-  @Column({ default: false, nullable: false })
+  @Column({ default: false })
   done: boolean;
 
   @Field(() => ID)
@@ -13,6 +13,6 @@ export class Todo {
   id: string;
 
   @Field()
-  @Column({ length: 100, nullable: false })
+  @Column({ length: 100 })
   task: string;
 }

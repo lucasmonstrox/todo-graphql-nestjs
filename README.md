@@ -93,6 +93,19 @@ environment
 
 ## 🧪 Running tests
 
+Creating tests database Only integration tests are supported. Backend is spun up
+on a special database
+
+Tests use their own database. To create it:
+
+```bash
+docker exec -it local_db psql -U local_dev -c "create database local_db_test" local_db
+```
+
+Note that in backend/config/typeorm.config.ts the local_db_test database is
+configured to synchronize TypeORM migrations automatically, unlike the
+development database.
+
 ```bash
 # unit tests
 yarn test
@@ -179,7 +192,8 @@ yarn start:prod
 [ ] Add docker section to make project working through docker  
 [ ] Add project files structure  
 [ ] Add issue template file  
-[ ] Check if env variables are loading correctly using
+[ ] Add typeorm-seeding within seeds [ ] Check if env variables are loading
+correctly using  
 [schema-validation](https://docs.nestjs.com/techniques/configuration#schema-validation)  
 [ ] Track errors in production. Use [sentry.io](https://sentry.io) or similar
 

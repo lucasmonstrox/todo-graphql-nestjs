@@ -104,7 +104,7 @@ docker exec -it local_db psql -U local_dev -c "create database local_db_test" lo
 
 Note that in backend/config/typeorm.config.ts the local_db_test database is
 configured to synchronize TypeORM migrations automatically, unlike the
-dvelopment database.
+development database.
 
 ```bash
 # unit tests
@@ -193,7 +193,7 @@ yarn start:prod
 [ ] Add project files structure  
 [ ] Add issue template file  
 [ ] Add typeorm-seeding within seeds [ ] Check if env variables are loading
-correctly using
+correctly using  
 [schema-validation](https://docs.nestjs.com/techniques/configuration#schema-validation)  
 [ ] Track errors in production. Use [sentry.io](https://sentry.io) or similar
 

@@ -5,7 +5,7 @@ import { Column, Entity, PrimaryGeneratedColumn } from 'typeorm';
 @Entity('todo')
 export class TodoEntity {
   @Field()
-  @Column({ default: false, nullable: false })
+  @Column({ default: false })
   done: boolean;
 
   @Field(() => ID)
@@ -13,6 +13,6 @@ export class TodoEntity {
   id: string;
 
   @Field()
-  @Column({ length: 100, nullable: false })
+  @Column({ length: 100 })
   task: string;
 }

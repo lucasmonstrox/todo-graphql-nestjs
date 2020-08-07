@@ -19,7 +19,7 @@ export class TodoResolver {
 
   @Mutation(() => TodoEntity)
   @CacheUpdate({
-    cacheKey: (args, ctx, todo) => todo.id,
+    cacheKey: (args, ctx, todo: TodoEntity) => todo.id,
     cacheKeysToClear: 'todos',
   })
   async createTodo(
@@ -60,7 +60,7 @@ export class TodoResolver {
 
   @Mutation(() => TodoEntity)
   @CacheUpdate({
-    cacheKey: (args, ctx, todo) => todo.id,
+    cacheKey: (args, ctx, todo: TodoEntity) => todo.id,
     cacheKeysToClear: 'todos',
   })
   async updateTodo(

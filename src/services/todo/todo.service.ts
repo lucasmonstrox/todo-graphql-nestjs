@@ -10,7 +10,7 @@ export class TodoService implements ITodoService {
   constructor(private readonly todoRepository: TodoRepository) {}
 
   async createTodo(task: string): Promise<TodoEntity> {
-    const todoAsEntity = await this.todoRepository.create({ task });
+    const todoAsEntity = this.todoRepository.create({ task });
     const todo = await this.todoRepository.save(todoAsEntity);
 
     return todo;

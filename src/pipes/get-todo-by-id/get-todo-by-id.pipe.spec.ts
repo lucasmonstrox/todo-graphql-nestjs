@@ -19,7 +19,7 @@ describe('GetTodoByIdPipe', () => {
     return sutTypes;
   };
 
-  it("should throw a BadRequestException when TODO doesn't was not found", async () => {
+  it("should throw a TodoNotFoundException when TODO doesn't was not found", async () => {
     const { sut, todoServiceMock } = makeSut();
 
     todoServiceMock.getTodoById.mockImplementationOnce(() => null);

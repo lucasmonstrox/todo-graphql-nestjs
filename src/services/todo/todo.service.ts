@@ -6,6 +6,7 @@ import { TodoNotFoundException } from '@/exceptions/todo-not-found.exception';
 import { TodoUpdateInput } from '@/inputs/todo-update.input';
 import { ITodoService } from '@/interfaces/todo.interface';
 import { TodoRepository } from '@/repositories/todo/todo.repository';
+import { TodoCreateInput } from '@/inputs/todo-create.input';
 
 @Injectable()
 export class TodoService implements ITodoService {
@@ -15,8 +16,8 @@ export class TodoService implements ITodoService {
     cacheKey: (_, __, todo: TodoEntity) => todo.id,
     cacheKeysToClear: 'todos',
   })
-  async createTodo(task: string): Promise<TodoEntity> {
-    const todoAsEntity = this.todoRepository.create({ task });
+  async createTodo(todoCreateInput: TodoCreateInput): Promise<TodoEntity> {
+    const todoAsEntity = this.todoRepository.create(todoCreateInput);
     const todo = await this.todoRepository.save(todoAsEntity);
 
     return todo;

@@ -18,9 +18,9 @@ export class TodoResolver {
   @Mutation(() => TodoEntity)
   async createTodo(
     @Args('input', SanitizePipe)
-    { task }: TodoCreateInput,
+    todoCreateInput: TodoCreateInput,
   ): Promise<TodoEntity> {
-    const todo = await this.todoService.createTodo(task);
+    const todo = await this.todoService.createTodo(todoCreateInput);
 
     return todo;
   }

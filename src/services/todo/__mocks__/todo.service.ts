@@ -1,9 +1,9 @@
-import { TodoRepository } from '@/repositories/todo/__mocks__/todo.repository';
+import { TodoEntityMock } from '@/mocks/entities/todo.entity';
 
 export class TodoService {
-  createTodo = jest.fn(() => TodoRepository.todo);
-  getAllTodos = jest.fn(() => [TodoRepository.todo]);
-  getTodo = jest.fn(() => TodoRepository.todo);
+  createTodo = jest.fn(() => TodoEntityMock);
+  getAllTodos = jest.fn(() => [TodoEntityMock]);
+  getTodo = jest.fn(() => TodoEntityMock);
   removeTodo = jest.fn(() => true);
-  updateTodo = jest.fn(() => TodoRepository.todo);
+  updateTodo = jest.fn(() => TodoEntityMock);
 }

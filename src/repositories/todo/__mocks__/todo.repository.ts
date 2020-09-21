@@ -1,15 +1,9 @@
-import faker from 'faker';
+import { TodoEntityMock } from '@/mocks/entities/todo.entity';
 
 export class TodoRepository {
-  static readonly todo = {
-    id: faker.random.uuid(),
-    done: faker.random.boolean(),
-    task: faker.random.words(),
-  };
-
-  create = jest.fn(() => TodoRepository.todo);
+  create = jest.fn(() => TodoEntityMock);
   remove = jest.fn();
-  find = jest.fn(() => [TodoRepository.todo]);
-  findOne = jest.fn(() => TodoRepository.todo);
-  save = jest.fn(() => TodoRepository.todo);
+  find = jest.fn(() => [TodoEntityMock]);
+  findOne = jest.fn(() => TodoEntityMock);
+  save = jest.fn(() => TodoEntityMock);
 }

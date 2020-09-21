@@ -3,9 +3,9 @@ import { Test, TestingModule } from '@nestjs/testing';
 import faker from 'faker';
 import request from 'supertest';
 
-import { AppModule } from '@/app.module';
-import { configureApp } from '@/configure';
-import { TodoEntity } from '@/entities/todo.entity';
+import { AppModule } from '@/infrastructure/app.module';
+import { configureApp } from '@/infrastructure/configure';
+import { TodoEntity } from '@/infrastructure/database/entities/todo.entity';
 
 describe('TodoResolver (e2e)', () => {
   let app: INestApplication;

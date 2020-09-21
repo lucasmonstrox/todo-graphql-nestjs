@@ -1,11 +1,12 @@
 import { Injectable } from '@nestjs/common';
 import { Cacheable, CacheClear, CacheUpdate } from '@type-cacheable/core';
 
-import { TodoEntity } from '@/entities/todo.entity';
-import { TodoNotFoundException } from '@/exceptions/todo-not-found.exception';
-import { TodoUpdateInput } from '@/inputs/todo-update.input';
-import { ITodoService } from '@/interfaces/todo.interface';
-import { TodoRepository } from '@/repositories/todo/todo.repository';
+import { ITodoService } from '@/domain/todo';
+import { TodoEntity } from '@/infrastructure/database/entities/todo.entity';
+import { TodoNotFoundException } from '@/infrastructure/exceptions/todo-not-found.exception';
+import { TodoCreateInput } from '@/infrastructure/graphql/inputs/todo-create.input';
+import { TodoUpdateInput } from '@/infrastructure/graphql/inputs/todo-update.input';
+import { TodoRepository } from '@/infrastructure/repositories/todo/todo.repository';
 
 @Injectable()
 export class TodoService implements ITodoService {
@@ -15,7 +16,7 @@ export class TodoService implements ITodoService {
     cacheKey: (_, __, todo: TodoEntity) => todo.id,
     cacheKeysToClear: 'todos',
   })
-  async createTodo(task: string): Promise<TodoEntity> {
+  async createTodo({ task }: TodoCreateInput): Promise<TodoEntity> {
     const todoAsEntity = this.todoRepository.create({ task });
     const todo = await this.todoRepository.save(todoAsEntity);
 

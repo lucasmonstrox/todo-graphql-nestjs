@@ -1,6 +1,7 @@
 import { plainToClass } from 'class-transformer';
 
-import { TodoUpdateInput } from '@/inputs/todo-update.input';
+// TODO: test with generic class
+import { TodoUpdateInput } from '@/infrastructure/graphql/inputs/todo-update.input';
 import { SanitizePipe } from './sanitize.pipe';
 
 describe('SanitizePipe', () => {

@@ -1,6 +1,8 @@
-import { TodoUpdateInput } from 'inputs/todo-update.input';
-import { TodoRepository } from 'repositories/todo/__mocks__/todo.repository';
-import { TodoService } from 'services/todo/__mocks__/todo.service';
+import faker from 'faker';
+
+import { TodoUpdateInput } from '@/inputs/todo-update.input';
+import { TodoRepository } from '@/repositories/todo/__mocks__/todo.repository';
+import { TodoService } from '@/services/todo/__mocks__/todo.service';
 import { TodoResolver } from './todo.resolver';
 
 describe('TodoResolver', () => {
@@ -21,7 +23,7 @@ describe('TodoResolver', () => {
 
   it('should create a TODO', async () => {
     const { sut, todoServiceMock } = makeSut();
-    const task = 'task';
+    const task = faker.random.words();
 
     expect(await sut.createTodo({ task })).toBe(TodoRepository.todo);
     expect(todoServiceMock.createTodo).toHaveBeenCalledWith(task);
@@ -36,21 +38,8 @@ describe('TodoResolver', () => {
   it('should get a TODO', async () => {
     const { sut, todoServiceMock } = makeSut();
 
-    expect(await sut.getTodoById(TodoRepository.todo.id)).toBe(
-      TodoRepository.todo,
-    );
-
-    expect(todoServiceMock.getTodoById).toHaveBeenCalledWith(
-      TodoRepository.todo.id,
-    );
-  });
-
-  it('should get a TODO', async () => {
-    const { sut, todoServiceMock } = makeSut();
-
-    expect(await sut.removeTodoById(TodoRepository.todo.id)).toBe(true);
-
-    expect(todoServiceMock.removeTodoById).toHaveBeenCalledWith(
+    expect(await sut.getTodo(TodoRepository.todo.id)).toBe(TodoRepository.todo);
+    expect(todoServiceMock.getTodo).toHaveBeenCalledWith(
       TodoRepository.todo.id,
     );
   });
@@ -58,23 +47,24 @@ describe('TodoResolver', () => {
   it('should remove a TODO', async () => {
     const { sut, todoServiceMock } = makeSut();
 
-    expect(await sut.removeTodoById(TodoRepository.todo.id)).toBe(true);
+    await sut.removeTodo(TodoRepository.todo.id);
 
-    expect(todoServiceMock.removeTodoById).toHaveBeenCalledWith(
+    expect(todoServiceMock.removeTodo).toHaveBeenCalledWith(
       TodoRepository.todo.id,
     );
   });
 
   it('should update a TODO', async () => {
     const { sut, todoServiceMock } = makeSut();
-    const todoUpdateInput: TodoUpdateInput = { done: true, task: 'newTask' };
+    const todoUpdateInput: TodoUpdateInput = {
+      done: true,
+      task: faker.random.words(),
+    };
 
-    expect(await sut.updateTodo(TodoRepository.todo, todoUpdateInput)).toBe(
-      TodoRepository.todo,
-    );
+    await sut.updateTodo(TodoRepository.todo.id, todoUpdateInput);
 
     expect(todoServiceMock.updateTodo).toHaveBeenCalledWith(
-      TodoRepository.todo,
+      TodoRepository.todo.id,
       todoUpdateInput,
     );
   });

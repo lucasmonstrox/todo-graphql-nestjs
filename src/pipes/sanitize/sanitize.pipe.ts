@@ -1,10 +1,9 @@
-import { Injectable, PipeTransform } from '@nestjs/common';
-
 import { sanitize } from '@hollowverse/class-sanitizer';
+import { Injectable, PipeTransform } from '@nestjs/common';
 
 @Injectable()
 export class SanitizePipe implements PipeTransform {
-  transform(data /* TODO: Add parameter type */) /* TODO: Add return type */ {
+  transform(data: any): any {
     sanitize(data);
 
     return data;

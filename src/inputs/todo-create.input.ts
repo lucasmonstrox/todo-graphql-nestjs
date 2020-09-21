@@ -1,5 +1,5 @@
-import { Field, InputType } from '@nestjs/graphql';
 import { Escape, Trim } from '@hollowverse/class-sanitizer';
+import { Field, InputType } from '@nestjs/graphql';
 import { IsNotEmpty, MaxLength } from 'class-validator';
 
 @InputType()

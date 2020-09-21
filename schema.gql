@@ -3,19 +3,19 @@
 # ------------------------------------------------------
 
 type Todo {
-  done: Boolean!
   id: ID!
+  done: Boolean!
   task: String!
 }
 
 type Query {
   getAllTodos: [Todo!]!
-  getTodoById(id: ID!): Todo
+  getTodo(id: ID!): Todo
 }
 
 type Mutation {
   createTodo(input: TodoCreateInput!): Todo!
-  removeTodoById(id: ID!): Boolean!
+  removeTodo(id: ID!): Boolean!
   updateTodo(input: TodoUpdateInput!, id: ID!): Todo!
 }
 

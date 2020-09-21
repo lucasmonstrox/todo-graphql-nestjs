@@ -1,14 +1,12 @@
 import { Inject } from '@nestjs/common';
 import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
-import { Cacheable, CacheClear, CacheUpdate } from '@type-cacheable/core';
 
-import { TodoEntity } from 'entities/todo.entity';
-import { TodoCreateInput } from 'inputs/todo-create.input';
-import { TodoUpdateInput } from 'inputs/todo-update.input';
-import { ITodoService } from 'interfaces/todo.interface';
-import { GetTodoByIdPipe } from 'pipes/get-todo-by-id/get-todo-by-id.pipe';
-import { SanitizePipe } from 'pipes/sanitize/sanitize.pipe';
-import { TodoService } from 'services/todo/todo.service';
+import { TodoEntity } from '@/entities/todo.entity';
+import { TodoCreateInput } from '@/inputs/todo-create.input';
+import { TodoUpdateInput } from '@/inputs/todo-update.input';
+import { ITodoService } from '@/interfaces/todo.interface';
+import { SanitizePipe } from '@/pipes/sanitize/sanitize.pipe';
+import { TodoService } from '@/services/todo/todo.service';
 
 @Resolver(() => TodoEntity)
 export class TodoResolver {
@@ -18,12 +16,9 @@ export class TodoResolver {
   ) {}
 
   @Mutation(() => TodoEntity)
-  @CacheUpdate({
-    cacheKey: (args, ctx, todo: TodoEntity) => todo.id,
-    cacheKeysToClear: 'todos',
-  })
   async createTodo(
-    @Args('input', SanitizePipe) { task }: TodoCreateInput,
+    @Args('input', SanitizePipe)
+    { task }: TodoCreateInput,
   ): Promise<TodoEntity> {
     const todo = await this.todoService.createTodo(task);
 
@@ -31,7 +26,6 @@ export class TodoResolver {
   }
 
   @Query(() => [TodoEntity])
-  @Cacheable({ cacheKey: 'todos' })
   async getAllTodos(): Promise<TodoEntity[]> {
     const todos = await this.todoService.getAllTodos();
 
@@ -39,38 +33,33 @@ export class TodoResolver {
   }
 
   @Query(() => TodoEntity, { nullable: true })
-  @Cacheable({ cacheKey: ([id]: [string]) => id })
-  async getTodoById(
-    @Args('id', { type: () => ID }) id: string,
+  async getTodo(
+    @Args('id', { type: () => ID })
+    id: string,
   ): Promise<TodoEntity | null> {
-    const todo = await this.todoService.getTodoById(id);
+    const todo = await this.todoService.getTodo(id);
 
     return todo;
   }
 
   @Mutation(() => Boolean)
-  @CacheClear({ cacheKey: ([id]: [string]) => [id, 'todos'] })
-  async removeTodoById(
-    @Args('id', { type: () => ID }) id: string,
-  ): Promise<boolean> {
-    const isDeleted = await this.todoService.removeTodoById(id);
+  async removeTodo(
+    @Args('id', { type: () => ID })
+    id: string,
+  ): Promise<true> {
+    await this.todoService.removeTodo(id);
 
-    return isDeleted;
+    return true;
   }
 
   @Mutation(() => TodoEntity)
-  @CacheUpdate({
-    cacheKey: (args, ctx, todo: TodoEntity) => todo.id,
-    cacheKeysToClear: 'todos',
-  })
   async updateTodo(
-    @Args('id', { type: () => ID }, GetTodoByIdPipe) todo: TodoEntity,
-    @Args('input', SanitizePipe) todoUpdateInput: TodoUpdateInput,
+    @Args('id', { type: () => ID })
+    id: string,
+    @Args('input', SanitizePipe)
+    todoUpdateInput: TodoUpdateInput,
   ): Promise<TodoEntity> {
-    const updatedTodo = await this.todoService.updateTodo(
-      todo,
-      todoUpdateInput,
-    );
+    const updatedTodo = await this.todoService.updateTodo(id, todoUpdateInput);
 
     return updatedTodo;
   }

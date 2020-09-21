@@ -1,6 +1,8 @@
-import { TodoUpdateInput } from 'inputs/todo-update.input';
-import { TodoRepository } from 'repositories/todo/__mocks__/todo.repository';
-import { TodoService } from 'services/todo/todo.service';
+import faker from 'faker';
+
+import { TodoUpdateInput } from '@/inputs/todo-update.input';
+import { TodoRepository } from '@/repositories/todo/__mocks__/todo.repository';
+import { TodoService } from '@/services/todo/todo.service';
 
 describe('TodoService', () => {
   type SutTypes = {
@@ -20,7 +22,7 @@ describe('TodoService', () => {
 
   it('should create a TODO', async () => {
     const { sut, todoRepositoryMock } = makeSut();
-    const task = 'task';
+    const task = faker.random.words();
 
     expect(await sut.createTodo(task)).toBe(TodoRepository.todo);
     expect(todoRepositoryMock.create).toHaveBeenCalledWith({ task });
@@ -36,10 +38,7 @@ describe('TodoService', () => {
   it('should get a TODO', async () => {
     const { sut, todoRepositoryMock } = makeSut();
 
-    expect(await sut.getTodoById(TodoRepository.todo.id)).toBe(
-      TodoRepository.todo,
-    );
-
+    expect(await sut.getTodo(TodoRepository.todo.id)).toBe(TodoRepository.todo);
     expect(todoRepositoryMock.findOne).toHaveBeenCalledWith(
       TodoRepository.todo.id,
     );
@@ -48,21 +47,21 @@ describe('TodoService', () => {
   it('should remove a TODO', async () => {
     const { sut, todoRepositoryMock } = makeSut();
 
-    expect(await sut.removeTodoById(TodoRepository.todo.id)).toBe(true);
+    await sut.removeTodo(TodoRepository.todo.id);
 
-    expect(todoRepositoryMock.delete).toHaveBeenCalledWith(
-      TodoRepository.todo.id,
-    );
+    expect(todoRepositoryMock.remove).toHaveBeenCalledWith(TodoRepository.todo);
   });
 
   it('should update a TODO', async () => {
     const { sut, todoRepositoryMock } = makeSut();
-    const todoUpdateInput: TodoUpdateInput = { done: true, task: 'newTask' };
+    const todoUpdateInput: TodoUpdateInput = {
+      done: true,
+      task: faker.random.words(),
+    };
 
-    expect(await sut.updateTodo(TodoRepository.todo, todoUpdateInput)).toBe(
+    expect(await sut.updateTodo(TodoRepository.todo.id, todoUpdateInput)).toBe(
       TodoRepository.todo,
     );
-
     expect(todoRepositoryMock.save).toHaveBeenCalledWith(
       Object.assign(TodoRepository.todo, todoUpdateInput),
     );

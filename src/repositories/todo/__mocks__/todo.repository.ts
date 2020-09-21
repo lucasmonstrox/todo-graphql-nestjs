@@ -1,12 +1,14 @@
+import faker from 'faker';
+
 export class TodoRepository {
   static readonly todo = {
-    id: 'id',
-    done: false,
-    task: 'task',
+    id: faker.random.uuid(),
+    done: faker.random.boolean(),
+    task: faker.random.words(),
   };
 
   create = jest.fn(() => TodoRepository.todo);
-  delete = jest.fn(() => ({ affected: 1 }));
+  remove = jest.fn();
   find = jest.fn(() => [TodoRepository.todo]);
   findOne = jest.fn(() => TodoRepository.todo);
   save = jest.fn(() => TodoRepository.todo);

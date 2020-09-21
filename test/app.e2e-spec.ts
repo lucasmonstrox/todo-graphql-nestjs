@@ -1,17 +1,19 @@
 import { INestApplication } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
+import faker from 'faker';
 import request from 'supertest';
 
-import { AppModule } from 'app.module';
-import { configureApp } from 'configure';
+import { AppModule } from '@/app.module';
+import { configureApp } from '@/configure';
+import { TodoEntity } from '@/entities/todo.entity';
 
 describe('TodoResolver (e2e)', () => {
   let app: INestApplication;
-  let createdTodoId: string;
-  let createdTodoIdWithHtmlEntities: string;
+  let createdTodo: TodoEntity;
+  let createdTodoWithHtmlEntities: TodoEntity;
 
   const graphlEndpoint = '/graphql';
-  const nonExistentTodoId = 'd984ea01-f5fc-4559-854c-322c5e161c51';
+  const nonExistentTodoId = faker.random.uuid();
 
   beforeAll(async () => {
     const moduleFixture: TestingModule = await Test.createTestingModule({
@@ -30,19 +32,18 @@ describe('TodoResolver (e2e)', () => {
   });
 
   describe('createTodo', () => {
+    const operationName = 'CreateTodo';
     const createTodoMutation = `
-    mutation CreateTodo($input: TodoCreateInput!) {
+    mutation ${operationName}($input: TodoCreateInput!) {
       createTodo(input: $input) {
-        done
         id
+        done
         task
       }
     }
     `;
 
-    const operationName = 'CreateTodo';
-
-    it('should not create a TODO when task is empty', async () => {
+    it('should not create a TODO when task content is empty', async () => {
       const payload = {
         operationName,
         query: createTodoMutation,
@@ -52,8 +53,8 @@ describe('TodoResolver (e2e)', () => {
       return request(app.getHttpServer())
         .post(graphlEndpoint)
         .send(payload)
-        .expect(({ body: { errors } }) => {
-          expect(errors).toHaveProperty(
+        .expect(response => {
+          expect(response.body.errors).toHaveProperty(
             '0.extensions.exception.response.message.0.constraints.isNotEmpty',
             'task should not be empty',
           );
@@ -61,23 +62,18 @@ describe('TodoResolver (e2e)', () => {
         .expect(200);
     });
 
-    it('should not create a TODO when task length is 100 or more', async () => {
+    it('should not create a TODO when task content length is greater than 100', async () => {
       const payload = {
         operationName,
         query: createTodoMutation,
-        variables: {
-          input: {
-            task:
-              '12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901',
-          },
-        },
+        variables: { input: { task: faker.random.words(101) } },
       };
 
       return request(app.getHttpServer())
         .post(graphlEndpoint)
         .send(payload)
-        .expect(({ body: { errors } }) => {
-          expect(errors).toHaveProperty(
+        .expect(response => {
+          expect(response.body.errors).toHaveProperty(
             '0.extensions.exception.response.message.0.constraints.maxLength',
             'task must be shorter than or equal to 100 characters',
           );
@@ -86,32 +82,26 @@ describe('TodoResolver (e2e)', () => {
     });
 
     it('should create a TODO', async () => {
+      const input = { task: faker.random.words() };
       const payload = {
         operationName,
         query: createTodoMutation,
-        variables: {
-          input: {
-            task: 'task',
-          },
-        },
+        variables: { input },
       };
 
       return request(app.getHttpServer())
         .post(graphlEndpoint)
         .send(payload)
-        .expect(
-          ({
-            body: {
-              data: { createTodo },
-            },
-          }) => {
-            createdTodoId = createTodo.id;
+        .expect(response => {
+          createdTodo = response.body.data.createTodo;
 
-            expect(createTodo).toHaveProperty('done', false);
-            expect(createTodo).toHaveProperty('id');
-            expect(createTodo).toHaveProperty('task', 'task');
-          },
-        )
+          expect(response.body.data.createTodo).toHaveProperty('done', false);
+          expect(response.body.data.createTodo).toHaveProperty('id');
+          expect(response.body.data.createTodo).toHaveProperty(
+            'task',
+            input.task,
+          );
+        })
         .expect(200);
     });
 
@@ -119,112 +109,81 @@ describe('TodoResolver (e2e)', () => {
       const payload = {
         operationName,
         query: createTodoMutation,
-        variables: {
-          input: {
-            task: ' <script></script>  ',
-          },
-        },
+        variables: { input: { task: ' <script></script> ' } },
       };
 
       return request(app.getHttpServer())
         .post(graphlEndpoint)
         .send(payload)
-        .expect(
-          ({
-            body: {
-              data: { createTodo },
-            },
-          }) => {
-            createdTodoIdWithHtmlEntities = createTodo.id;
+        .expect(response => {
+          createdTodoWithHtmlEntities = response.body.data.createTodo;
 
-            expect(createTodo).toHaveProperty('done', false);
-            expect(createTodo).toHaveProperty('id');
-
-            expect(createTodo).toHaveProperty(
-              'task',
-              '&lt;script&gt;&lt;&#x2F;script&gt;',
-            );
-          },
-        )
+          expect(response.body.data.createTodo).toHaveProperty('done', false);
+          expect(response.body.data.createTodo).toHaveProperty('id');
+          expect(response.body.data.createTodo).toHaveProperty(
+            'task',
+            '&lt;script&gt;&lt;&#x2F;script&gt;',
+          );
+        })
         .expect(200);
     });
   });
 
-  describe('getTodoById', () => {
-    const getTodoByIdQuery = `
-    query GetTodoById($todoId: ID!) {
-      getTodoById(id: $todoId) {
-        done
+  describe('getTodo', () => {
+    const operationName = 'GetTodo';
+    const getTodoQuery = `
+    query ${operationName}($id: ID!) {
+      getTodo(id: $id) {
         id
+        done
         task
       }
     }
     `;
 
-    const operationName = 'GetTodoById';
-
     it('should TODO be null when giving inexistent id', async () => {
       const payload = {
         operationName,
-        query: getTodoByIdQuery,
-        variables: {
-          todoId: nonExistentTodoId,
-        },
+        query: getTodoQuery,
+        variables: { id: nonExistentTodoId },
       };
 
       return request(app.getHttpServer())
         .post(graphlEndpoint)
         .send(payload)
-        .expect(
-          ({
-            body: {
-              data: { getTodoById },
-            },
-          }) => {
-            expect(getTodoById).toBe(null);
-          },
-        )
+        .expect(response => {
+          expect(response.body.data.getTodo).toBe(null);
+        })
         .expect(200);
     });
 
     it('should get a TODO', async () => {
       const payload = {
         operationName,
-        query: getTodoByIdQuery,
-        variables: {
-          todoId: createdTodoId,
-        },
+        query: getTodoQuery,
+        variables: { id: createdTodo.id },
       };
 
       return request(app.getHttpServer())
         .post(graphlEndpoint)
         .send(payload)
-        .expect(
-          ({
-            body: {
-              data: { getTodoById },
-            },
-          }) => {
-            expect(getTodoById).toMatchObject({
-              done: false,
-              id: createdTodoId,
-              task: 'task',
-            });
-          },
-        )
+        .expect(response => {
+          expect(response.body.data.getTodo).toMatchObject(createdTodo);
+        })
         .expect(200);
     });
   });
 
   describe('getAllTodos', () => {
     it('should return a list of TODOS', async () => {
+      const operationName = 'GetAllTodos';
       const payload = {
-        operationName: 'GetAllTodos',
+        operationName,
         query: `
-        query GetAllTodos {
+        query ${operationName} {
           getAllTodos {
-            done
             id
+            done
             task
           }
         }
@@ -234,60 +193,45 @@ describe('TodoResolver (e2e)', () => {
       return request(app.getHttpServer())
         .post(graphlEndpoint)
         .send(payload)
-        .expect(
-          ({
-            body: {
-              data: { getAllTodos },
-            },
-          }) => {
-            expect(getAllTodos).toMatchObject([
-              {
-                done: false,
-                id: createdTodoId,
-                task: 'task',
-              },
-              {
-                done: false,
-                id: createdTodoIdWithHtmlEntities,
-                task: '&lt;script&gt;&lt;&#x2F;script&gt;',
-              },
-            ]);
-          },
-        )
+        .expect(response => {
+          expect(response.body.data.getAllTodos).toMatchObject([
+            createdTodo,
+            createdTodoWithHtmlEntities,
+          ]);
+        })
         .expect(200);
     });
   });
 
   describe('updateTodo', () => {
+    const operationName = 'UpdateTodo';
     const updateTodoMutation = `
-    mutation UpdateTodo($todoId: ID!, $input: TodoUpdateInput!) {
-      updateTodo(id: $todoId, input: $input) {
-        done
+    mutation ${operationName}($id: ID!, $input: TodoUpdateInput!) {
+      updateTodo(id: $id, input: $input) {
         id
+        done
         task
       }
     }
     `;
-
-    const operationName = 'UpdateTodo';
 
     it('should not update a TODO when giving inexistent id', async () => {
       const payload = {
         operationName,
         query: updateTodoMutation,
         variables: {
-          input: { task: 'updatedTask' },
-          todoId: nonExistentTodoId,
+          id: nonExistentTodoId,
+          input: { task: faker.random.words() },
         },
       };
 
       return request(app.getHttpServer())
         .post(graphlEndpoint)
         .send(payload)
-        .expect(({ body: { errors } }) => {
-          expect(errors).toHaveProperty(
+        .expect(response => {
+          expect(response.body.errors).toHaveProperty(
             '0.message',
-            'Todo with id "d984ea01-f5fc-4559-854c-322c5e161c51" was not found',
+            `Todo with id "${nonExistentTodoId}" was not found`,
           );
         })
         .expect(200);
@@ -297,17 +241,14 @@ describe('TodoResolver (e2e)', () => {
       const payload = {
         operationName,
         query: updateTodoMutation,
-        variables: {
-          input: { task: '' },
-          todoId: createdTodoId,
-        },
+        variables: { id: createdTodo.id, input: { task: '' } },
       };
 
       return request(app.getHttpServer())
         .post(graphlEndpoint)
         .send(payload)
-        .expect(({ body: { errors } }) => {
-          expect(errors).toHaveProperty(
+        .expect(response => {
+          expect(response.body.errors).toHaveProperty(
             '0.extensions.exception.response.message.0.constraints.isNotEmpty',
             'task should not be empty',
           );
@@ -320,19 +261,16 @@ describe('TodoResolver (e2e)', () => {
         operationName,
         query: updateTodoMutation,
         variables: {
-          input: {
-            task:
-              '12345678901234567890123456789012345678901234567890123456789012345678901234567890123456789012345678901',
-          },
-          todoId: createdTodoId,
+          id: createdTodo.id,
+          input: { task: faker.random.words(101) },
         },
       };
 
       return request(app.getHttpServer())
         .post(graphlEndpoint)
         .send(payload)
-        .expect(({ body: { errors } }) => {
-          expect(errors).toHaveProperty(
+        .expect(response => {
+          expect(response.body.errors).toHaveProperty(
             '0.extensions.exception.response.message.0.constraints.maxLength',
             'task must be shorter than or equal to 100 characters',
           );
@@ -341,31 +279,23 @@ describe('TodoResolver (e2e)', () => {
     });
 
     it('should update a TODO', async () => {
+      const input = { done: true, task: faker.random.words() };
       const payload = {
         operationName,
         query: updateTodoMutation,
-        variables: {
-          input: { done: true, task: 'updatedTask' },
-          todoId: createdTodoId,
-        },
+        variables: { input, id: createdTodo.id },
       };
 
       return request(app.getHttpServer())
         .post(graphlEndpoint)
         .send(payload)
-        .expect(
-          ({
-            body: {
-              data: { updateTodo },
-            },
-          }) => {
-            expect(updateTodo).toMatchObject({
-              done: true,
-              id: createdTodoId,
-              task: 'updatedTask',
-            });
-          },
-        )
+        .expect(response => {
+          expect(response.body.data.updateTodo).toMatchObject({
+            done: true,
+            id: createdTodo.id,
+            task: input.task,
+          });
+        })
         .expect(200);
     });
 
@@ -374,85 +304,65 @@ describe('TodoResolver (e2e)', () => {
         operationName,
         query: updateTodoMutation,
         variables: {
+          id: createdTodo.id,
           input: { done: true, task: ' <script></script> ' },
-          todoId: createdTodoId,
         },
       };
 
       return request(app.getHttpServer())
         .post(graphlEndpoint)
         .send(payload)
-        .expect(
-          ({
-            body: {
-              data: { updateTodo },
-            },
-          }) => {
-            expect(updateTodo).toMatchObject({
-              done: true,
-              id: createdTodoId,
-              task: '&lt;script&gt;&lt;&#x2F;script&gt;',
-            });
-          },
-        )
+        .expect(response => {
+          expect(response.body.data.updateTodo).toMatchObject({
+            id: createdTodo.id,
+            done: true,
+            task: '&lt;script&gt;&lt;&#x2F;script&gt;',
+          });
+        })
         .expect(200);
     });
   });
 
   describe('removeTodo', () => {
-    const removeTodoByIdMutation = `
-    mutation RemoveTodoById($todoId: ID!) {
-      removeTodoById(id: $todoId)
+    const operationName = 'RemoveTodo';
+    const removeTodoMutation = `
+    mutation ${operationName}($id: ID!) {
+      removeTodo(id: $id)
     }
     `;
-
-    const operationName = 'RemoveTodoById';
 
     it('should remove a TODO', async () => {
       const payload = {
         operationName,
-        query: removeTodoByIdMutation,
-        variables: {
-          todoId: createdTodoId,
-        },
+        query: removeTodoMutation,
+        variables: { id: createdTodo.id },
       };
 
       return request(app.getHttpServer())
         .post(graphlEndpoint)
         .send(payload)
-        .expect(
-          ({
-            body: {
-              data: { removeTodoById },
-            },
-          }) => {
-            expect(removeTodoById).toBe(true);
-          },
-        )
+        .expect(response => {
+          expect(response.body.data.removeTodo).toBe(true);
+        })
         .expect(200);
     });
 
     it('should not remove a TODO when giving inexistent id', async () => {
       const payload = {
         operationName,
-        query: removeTodoByIdMutation,
-        variables: {
-          todoId: nonExistentTodoId,
-        },
+        query: removeTodoMutation,
+        variables: { id: nonExistentTodoId },
       };
 
       return request(app.getHttpServer())
         .post(graphlEndpoint)
         .send(payload)
-        .expect(
-          ({
-            body: {
-              data: { removeTodoById },
-            },
-          }) => {
-            expect(removeTodoById).toBe(false);
-          },
-        )
+        .expect(response => {
+          expect(response.body.errors).toHaveProperty(
+            '0.message',
+            `Todo with id "${nonExistentTodoId}" was not found`,
+          );
+        })
         .expect(200);
     });
   });

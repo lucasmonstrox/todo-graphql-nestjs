@@ -1,6 +1,6 @@
 import { ConnectionOptions } from 'typeorm';
 
-import { environment, isTesting } from 'consts/envs';
+import { environment, isTesting } from '@/consts/envs';
 
 const databases = {
   development: 'local_db',
@@ -9,11 +9,11 @@ const databases = {
 
 const ormConfig: ConnectionOptions = {
   type: 'postgres',
-  host: process.env.DB_HOST || 'localhost',
-  port: process.env.DB_PORT ? +process.env.DB_PORT : 5432,
-  username: process.env.DB_USERNAME || 'local_dev',
-  password: process.env.DB_PASSWORD || 'local_dev',
-  database: process.env.DB_DATABASE || databases[environment],
+  host: process.env.MYSQL_HOST || 'localhost',
+  port: process.env.MYSQL_PORT ? +process.env.MYSQL_PORT : 5432,
+  username: process.env.MYSQL_USERNAME || 'local_dev',
+  password: process.env.MYSQL_PASSWORD || 'local_dev',
+  database: process.env.MYSQL_DATABASE || databases[environment],
   entities: [__dirname + '/../**/*.entity{.ts,.js}'],
   dropSchema: isTesting,
   synchronize: isTesting,

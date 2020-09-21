@@ -9,13 +9,13 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { useAdapter } from '@type-cacheable/redis-adapter';
 import * as redis from 'redis';
 
-import graphqlConfig from './configs/graphql.config';
-import ormConfig from './configs/typeorm.config';
-import redisConfig from './configs/redis.config';
-import { isTesting } from './consts/envs';
-import { TodoRepository } from './repositories/todo/todo.repository';
-import { TodoResolver } from './resolvers/todo/todo.resolver';
-import { TodoService } from './services/todo/todo.service';
+import graphqlConfig from '@/configs/graphql.config';
+import ormConfig from '@/configs/typeorm.config';
+import redisConfig from '@/configs/redis.config';
+import { isTesting } from '@/consts/envs';
+import { TodoRepository } from '@/repositories/todo/todo.repository';
+import { TodoResolver } from '@/resolvers/todo/todo.resolver';
+import { TodoService } from '@/services/todo/todo.service';
 
 @Module({
   imports: [

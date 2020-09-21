@@ -36,7 +36,7 @@ export class TodoResolver {
   async getTodo(
     @Args('id', { type: () => ID })
     id: string,
-  ): Promise<TodoEntity | null> {
+  ): Promise<TodoEntity | undefined> {
     const todo = await this.todoService.getTodo(id);
 
     return todo;

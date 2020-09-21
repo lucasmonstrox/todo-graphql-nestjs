@@ -1,59 +1,60 @@
+import { Test } from '@nestjs/testing';
 import faker from 'faker';
 
 import { TodoUpdateInput } from '@/inputs/todo-update.input';
+// TODO: use jest.mock instead
 import { TodoRepository } from '@/repositories/todo/__mocks__/todo.repository';
 import { TodoService } from '@/services/todo/todo.service';
 
 describe('TodoService', () => {
   type SutTypes = {
     sut: TodoService;
-    todoRepositoryMock: TodoRepository;
+    todoRepository: TodoRepository;
   };
 
-  const makeSut = (): SutTypes => {
-    const todoRepositoryMock = new TodoRepository();
-    // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
-    // @ts-ignore
-    const todoService = new TodoService(todoRepositoryMock);
-    const sutTypes = { todoRepositoryMock, sut: todoService };
+  const makeSut = async (): Promise<SutTypes> => {
+    const moduleRef = await Test.createTestingModule({
+      providers: [TodoRepository, TodoService],
+    }).compile();
+    const todoRepository = moduleRef.get<TodoRepository>(TodoRepository);
+    const todoService = moduleRef.get<TodoService>(TodoService);
+    const sutTypes = { todoRepository, sut: todoService };
 
     return sutTypes;
   };
 
   it('should create a TODO', async () => {
-    const { sut, todoRepositoryMock } = makeSut();
+    const { sut, todoRepository } = await makeSut();
     const task = faker.random.words();
 
     expect(await sut.createTodo(task)).toBe(TodoRepository.todo);
-    expect(todoRepositoryMock.create).toHaveBeenCalledWith({ task });
-    expect(todoRepositoryMock.save).toHaveBeenCalledWith(TodoRepository.todo);
+    expect(todoRepository.create).toHaveBeenCalledWith({ task });
+    expect(todoRepository.save).toHaveBeenCalledWith(TodoRepository.todo);
   });
 
   it('should get all TODOS', async () => {
-    const { sut } = makeSut();
+    const { sut } = await makeSut();
 
     expect(await sut.getAllTodos()).toMatchObject([TodoRepository.todo]);
   });
 
   it('should get a TODO', async () => {
-    const { sut, todoRepositoryMock } = makeSut();
+    const { sut, todoRepository } = await makeSut();
 
     expect(await sut.getTodo(TodoRepository.todo.id)).toBe(TodoRepository.todo);
-    expect(todoRepositoryMock.findOne).toHaveBeenCalledWith(
-      TodoRepository.todo.id,
-    );
+    expect(todoRepository.findOne).toHaveBeenCalledWith(TodoRepository.todo.id);
   });
 
   it('should remove a TODO', async () => {
-    const { sut, todoRepositoryMock } = makeSut();
+    const { sut, todoRepository } = await makeSut();
 
     await sut.removeTodo(TodoRepository.todo.id);
 
-    expect(todoRepositoryMock.remove).toHaveBeenCalledWith(TodoRepository.todo);
+    expect(todoRepository.remove).toHaveBeenCalledWith(TodoRepository.todo);
   });
 
   it('should update a TODO', async () => {
-    const { sut, todoRepositoryMock } = makeSut();
+    const { sut, todoRepository } = await makeSut();
     const todoUpdateInput: TodoUpdateInput = {
       done: true,
       task: faker.random.words(),
@@ -62,7 +63,7 @@ describe('TodoService', () => {
     expect(await sut.updateTodo(TodoRepository.todo.id, todoUpdateInput)).toBe(
       TodoRepository.todo,
     );
-    expect(todoRepositoryMock.save).toHaveBeenCalledWith(
+    expect(todoRepository.save).toHaveBeenCalledWith(
       Object.assign(TodoRepository.todo, todoUpdateInput),
     );
   });

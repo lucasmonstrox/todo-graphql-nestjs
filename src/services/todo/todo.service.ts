@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Cacheable, CacheClear, CacheUpdate } from '@type-cacheable/core';
 
 import { TodoEntity } from '@/entities/todo.entity';
-import { TodoNotFoundException } from '@/exceptions/todo-not-foud.exception';
+import { TodoNotFoundException } from '@/exceptions/todo-not-found.exception';
 import { TodoUpdateInput } from '@/inputs/todo-update.input';
 import { ITodoService } from '@/interfaces/todo.interface';
 import { TodoRepository } from '@/repositories/todo/todo.repository';
@@ -30,7 +30,7 @@ export class TodoService implements ITodoService {
   }
 
   @Cacheable({ cacheKey: ([id]: [string]) => id })
-  async getTodo(id: string): Promise<TodoEntity | null> {
+  async getTodo(id: string): Promise<TodoEntity | undefined> {
     const todo = await this.todoRepository.findOne(id);
 
     return todo;

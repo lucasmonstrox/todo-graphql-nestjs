@@ -17,7 +17,6 @@ describe('SanitizePipe', () => {
 
   it('should sanitize input', async () => {
     const { sut } = makeSut();
-
     const input = plainToClass(TodoUpdateInput, {
       done: true,
       task: ' <script></script> ',

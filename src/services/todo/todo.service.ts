@@ -3,10 +3,10 @@ import { Cacheable, CacheClear, CacheUpdate } from '@type-cacheable/core';
 
 import { TodoEntity } from '@/entities/todo.entity';
 import { TodoNotFoundException } from '@/exceptions/todo-not-found.exception';
+import { TodoCreateInput } from '@/inputs/todo-create.input';
 import { TodoUpdateInput } from '@/inputs/todo-update.input';
 import { ITodoService } from '@/interfaces/todo.interface';
 import { TodoRepository } from '@/repositories/todo/todo.repository';
-import { TodoCreateInput } from '@/inputs/todo-create.input';
 
 @Injectable()
 export class TodoService implements ITodoService {
@@ -17,8 +17,7 @@ export class TodoService implements ITodoService {
     cacheKeysToClear: 'todos',
   })
   async createTodo(todoCreateInput: TodoCreateInput): Promise<TodoEntity> {
-    const todoAsEntity = this.todoRepository.create(todoCreateInput);
-    const todo = await this.todoRepository.save(todoAsEntity);
+    const todo = await this.todoRepository.save(todoCreateInput);
 
     return todo;
   }
@@ -39,13 +38,7 @@ export class TodoService implements ITodoService {
 
   @CacheClear({ cacheKey: ([id]: [string]) => [id, 'todos'] })
   async removeTodo(id: string): Promise<void> {
-    const todo = await this.todoRepository.findOne(id);
-    const todoNotFound = !todo;
-
-    // TODO: add branch test for this
-    if (todoNotFound) {
-      throw new TodoNotFoundException(id);
-    }
+    const todo = await this.getTodoOrThrow(id);
 
     await this.todoRepository.remove(todo);
   }
@@ -58,6 +51,15 @@ export class TodoService implements ITodoService {
     id: string,
     todoUpdateInput: TodoUpdateInput,
   ): Promise<TodoEntity> {
+    const todo = await this.getTodoOrThrow(id);
+    const todoToUpdate = Object.assign(todo, todoUpdateInput);
+    const updatedTodo = await this.todoRepository.save(todoToUpdate);
+
+    return updatedTodo;
+  }
+
+  // TODO: add unit tests
+  private async getTodoOrThrow(id: string): Promise<TodoEntity> {
     const todo = await this.todoRepository.findOne(id);
     const todoNotFound = !todo;
 
@@ -66,9 +68,6 @@ export class TodoService implements ITodoService {
       throw new TodoNotFoundException(id);
     }
 
-    const todoToUpdate = Object.assign(todo, todoUpdateInput);
-    const updatedTodo = await this.todoRepository.save(todoToUpdate);
-
-    return updatedTodo;
+    return todo;
   }
 }

@@ -30,8 +30,7 @@ describe('TodoService', () => {
     const todoCreateInput = { task: faker.random.words() };
 
     expect(await sut.createTodo(todoCreateInput)).toBe(TodoEntityMock);
-    expect(todoRepository.create).toHaveBeenCalledWith(todoCreateInput);
-    expect(todoRepository.save).toHaveBeenCalledWith(TodoEntityMock);
+    expect(todoRepository.save).toHaveBeenCalledWith(todoCreateInput);
   });
 
   it('should get all TODOS', async () => {

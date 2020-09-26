@@ -43,7 +43,7 @@ describe('TodoResolver (e2e)', () => {
     }
     `;
 
-    it('should not create a TODO when task content is empty', async () => {
+    it('should return validation errors when task is empty', async () => {
       const payload = {
         operationName,
         query: createTodoMutation,
@@ -62,7 +62,7 @@ describe('TodoResolver (e2e)', () => {
         .expect(200);
     });
 
-    it('should not create a TODO when task content length is greater than 100', async () => {
+    it('should return validation errors when task length is greater than 100', async () => {
       const payload = {
         operationName,
         query: createTodoMutation,
@@ -215,7 +215,7 @@ describe('TodoResolver (e2e)', () => {
     }
     `;
 
-    it('should not update a TODO when giving inexistent id', async () => {
+    it('should return error when giving inexistent id', async () => {
       const payload = {
         operationName,
         query: updateTodoMutation,
@@ -237,7 +237,7 @@ describe('TodoResolver (e2e)', () => {
         .expect(200);
     });
 
-    it('should not update a TODO when task is empty', async () => {
+    it('should return validation errors when task is empty', async () => {
       const payload = {
         operationName,
         query: updateTodoMutation,
@@ -256,7 +256,7 @@ describe('TodoResolver (e2e)', () => {
         .expect(200);
     });
 
-    it('should not update TODO when task length is 100 or more', async () => {
+    it('should return validation errors when task length is greater than 100', async () => {
       const payload = {
         operationName,
         query: updateTodoMutation,
@@ -331,23 +331,7 @@ describe('TodoResolver (e2e)', () => {
     }
     `;
 
-    it('should remove a TODO', async () => {
-      const payload = {
-        operationName,
-        query: removeTodoMutation,
-        variables: { id: createdTodo.id },
-      };
-
-      return request(app.getHttpServer())
-        .post(graphlEndpoint)
-        .send(payload)
-        .expect(response => {
-          expect(response.body.data.removeTodo).toBe(true);
-        })
-        .expect(200);
-    });
-
-    it('should not remove a TODO when giving inexistent id', async () => {
+    it('should return error when giving inexistent id', async () => {
       const payload = {
         operationName,
         query: removeTodoMutation,
@@ -362,6 +346,22 @@ describe('TodoResolver (e2e)', () => {
             '0.message',
             `Todo with id "${nonExistentTodoId}" was not found`,
           );
+        })
+        .expect(200);
+    });
+
+    it('should remove a TODO', async () => {
+      const payload = {
+        operationName,
+        query: removeTodoMutation,
+        variables: { id: createdTodo.id },
+      };
+
+      return request(app.getHttpServer())
+        .post(graphlEndpoint)
+        .send(payload)
+        .expect(response => {
+          expect(response.body.data.removeTodo).toBe(true);
         })
         .expect(200);
     });

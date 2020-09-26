@@ -43,7 +43,7 @@ describe('TodoResolver (e2e)', () => {
     }
     `;
 
-    it('should return validation errors when task is empty', async () => {
+    it('should return user input errors when task is empty', async () => {
       const payload = {
         operationName,
         query: createTodoMutation,
@@ -62,7 +62,7 @@ describe('TodoResolver (e2e)', () => {
         .expect(200);
     });
 
-    it('should return validation errors when task length is greater than 100', async () => {
+    it('should return user input errors when task length is greater than 100', async () => {
       const payload = {
         operationName,
         query: createTodoMutation,
@@ -237,7 +237,7 @@ describe('TodoResolver (e2e)', () => {
         .expect(200);
     });
 
-    it('should return validation errors when task is empty', async () => {
+    it('should return user input errors when task is empty', async () => {
       const payload = {
         operationName,
         query: updateTodoMutation,
@@ -256,7 +256,7 @@ describe('TodoResolver (e2e)', () => {
         .expect(200);
     });
 
-    it('should return validation errors when task length is greater than 100', async () => {
+    it('should return user input errors when task length is greater than 100', async () => {
       const payload = {
         operationName,
         query: updateTodoMutation,

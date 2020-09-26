@@ -10,11 +10,13 @@ import { TodoRepository } from '@/repositories/todo/todo.repository';
 
 @Injectable()
 export class TodoService implements ITodoService {
+  static readonly cacheKey = 'todos';
+
   constructor(private readonly todoRepository: TodoRepository) {}
 
   @CacheUpdate({
     cacheKey: (_, __, todo: TodoEntity) => todo.id,
-    cacheKeysToClear: 'todos',
+    cacheKeysToClear: TodoService.cacheKey,
   })
   async createTodo(todoCreateInput: CreateTodoInput): Promise<TodoEntity> {
     const todo = await this.todoRepository.save(todoCreateInput);
@@ -22,7 +24,7 @@ export class TodoService implements ITodoService {
     return todo;
   }
 
-  @Cacheable({ cacheKey: 'todos' })
+  @Cacheable({ cacheKey: TodoService.cacheKey })
   async getAllTodos(): Promise<TodoEntity[]> {
     const todos = await this.todoRepository.find();
 
@@ -36,7 +38,7 @@ export class TodoService implements ITodoService {
     return todo;
   }
 
-  @CacheClear({ cacheKey: ([id]: [string]) => [id, 'todos'] })
+  @CacheClear({ cacheKey: ([id]: [string]) => [id, TodoService.cacheKey] })
   async removeTodo(id: string): Promise<void> {
     const todo = await this.getTodoOrThrow(id);
 
@@ -45,7 +47,7 @@ export class TodoService implements ITodoService {
 
   @CacheUpdate({
     cacheKey: (_, __, todo: TodoEntity) => todo.id,
-    cacheKeysToClear: 'todos',
+    cacheKeysToClear: TodoService.cacheKey,
   })
   async updateTodo(
     id: string,

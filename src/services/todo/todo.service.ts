@@ -3,8 +3,8 @@ import { Cacheable, CacheClear, CacheUpdate } from '@type-cacheable/core';
 
 import { TodoEntity } from '@/entities/todo.entity';
 import { TodoNotFoundException } from '@/exceptions/todo-not-found.exception';
-import { TodoCreateInput } from '@/inputs/todo-create.input';
-import { TodoUpdateInput } from '@/inputs/todo-update.input';
+import { CreateTodoInput } from '@/inputs/create-todo.input';
+import { UpdateTodoInput } from '@/inputs/update-todo.input';
 import { ITodoService } from '@/interfaces/todo.interface';
 import { TodoRepository } from '@/repositories/todo/todo.repository';
 
@@ -16,7 +16,7 @@ export class TodoService implements ITodoService {
     cacheKey: (_, __, todo: TodoEntity) => todo.id,
     cacheKeysToClear: 'todos',
   })
-  async createTodo(todoCreateInput: TodoCreateInput): Promise<TodoEntity> {
+  async createTodo(todoCreateInput: CreateTodoInput): Promise<TodoEntity> {
     const todo = await this.todoRepository.save(todoCreateInput);
 
     return todo;
@@ -49,7 +49,7 @@ export class TodoService implements ITodoService {
   })
   async updateTodo(
     id: string,
-    todoUpdateInput: TodoUpdateInput,
+    todoUpdateInput: UpdateTodoInput,
   ): Promise<TodoEntity> {
     const todo = await this.getTodoOrThrow(id);
     const todoToUpdate = Object.assign(todo, todoUpdateInput);

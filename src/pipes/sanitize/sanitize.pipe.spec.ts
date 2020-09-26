@@ -1,6 +1,6 @@
 import { plainToClass } from 'class-transformer';
 
-import { TodoUpdateInput } from '@/inputs/todo-update.input';
+import { UpdateTodoInput } from '@/inputs/update-todo.input';
 import { SanitizePipe } from './sanitize.pipe';
 
 describe('SanitizePipe', () => {
@@ -17,7 +17,7 @@ describe('SanitizePipe', () => {
 
   it('should sanitize input', async () => {
     const { sut } = makeSut();
-    const input = plainToClass(TodoUpdateInput, {
+    const input = plainToClass(UpdateTodoInput, {
       done: true,
       task: ' <script></script> ',
     });

@@ -2,8 +2,8 @@ import { Inject } from '@nestjs/common';
 import { Args, ID, Mutation, Query, Resolver } from '@nestjs/graphql';
 
 import { TodoEntity } from '@/entities/todo.entity';
-import { TodoCreateInput } from '@/inputs/todo-create.input';
-import { TodoUpdateInput } from '@/inputs/todo-update.input';
+import { CreateTodoInput } from '@/inputs/create-todo.input';
+import { UpdateTodoInput } from '@/inputs/update-todo.input';
 import { ITodoService } from '@/interfaces/todo.interface';
 import { SanitizePipe } from '@/pipes/sanitize/sanitize.pipe';
 import { TodoService } from '@/services/todo/todo.service';
@@ -18,7 +18,7 @@ export class TodoResolver {
   @Mutation(() => TodoEntity)
   async createTodo(
     @Args('input', SanitizePipe)
-    todoCreateInput: TodoCreateInput,
+    todoCreateInput: CreateTodoInput,
   ): Promise<TodoEntity> {
     const todo = await this.todoService.createTodo(todoCreateInput);
 
@@ -57,7 +57,7 @@ export class TodoResolver {
     @Args('id', { type: () => ID })
     id: string,
     @Args('input', SanitizePipe)
-    todoUpdateInput: TodoUpdateInput,
+    todoUpdateInput: UpdateTodoInput,
   ): Promise<TodoEntity> {
     const updatedTodo = await this.todoService.updateTodo(id, todoUpdateInput);
 

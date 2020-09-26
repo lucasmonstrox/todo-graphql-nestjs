@@ -3,7 +3,7 @@ import { Field, InputType } from '@nestjs/graphql';
 import { IsBoolean, IsNotEmpty, IsOptional, MaxLength } from 'class-validator';
 
 @InputType()
-export class TodoUpdateInput {
+export class UpdateTodoInput {
   @IsOptional()
   @IsBoolean()
   @Field({ nullable: true })

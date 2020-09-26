@@ -14,16 +14,16 @@ type Query {
 }
 
 type Mutation {
-  createTodo(input: TodoCreateInput!): Todo!
+  createTodo(input: CreateTodoInput!): Todo!
   removeTodo(id: ID!): Boolean!
-  updateTodo(input: TodoUpdateInput!, id: ID!): Todo!
+  updateTodo(input: UpdateTodoInput!, id: ID!): Todo!
 }
 
-input TodoCreateInput {
+input CreateTodoInput {
   task: String!
 }
 
-input TodoUpdateInput {
+input UpdateTodoInput {
   done: Boolean
   task: String
 }

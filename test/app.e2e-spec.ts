@@ -34,7 +34,7 @@ describe('TodoResolver (e2e)', () => {
   describe('createTodo', () => {
     const operationName = 'CreateTodo';
     const createTodoMutation = `
-    mutation ${operationName}($input: TodoCreateInput!) {
+    mutation ${operationName}($input: CreateTodoInput!) {
       createTodo(input: $input) {
         id
         done
@@ -206,7 +206,7 @@ describe('TodoResolver (e2e)', () => {
   describe('updateTodo', () => {
     const operationName = 'UpdateTodo';
     const updateTodoMutation = `
-    mutation ${operationName}($id: ID!, $input: TodoUpdateInput!) {
+    mutation ${operationName}($id: ID!, $input: UpdateTodoInput!) {
       updateTodo(id: $id, input: $input) {
         id
         done

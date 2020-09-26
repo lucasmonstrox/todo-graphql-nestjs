@@ -4,19 +4,19 @@ export interface ITodo {
   task: string;
 }
 
-export interface ITodoCreateInput {
+export interface ICreateTodoInput {
   task: string;
 }
 
-export interface ITodoUpdateInput {
+export interface IUpdateTodoInput {
   done?: boolean;
   task?: string;
 }
 
 export interface ITodoService {
-  createTodo(todoCreateInput: ITodoCreateInput): Promise<ITodo>;
+  createTodo(todoCreateInput: ICreateTodoInput): Promise<ITodo>;
   getAllTodos(): Promise<ITodo[]>;
   getTodo(id: string): Promise<ITodo | null>;
   removeTodo(id: string): Promise<void>;
-  updateTodo(id: string, todoUpdateInput: ITodoUpdateInput): Promise<ITodo>;
+  updateTodo(id: string, todoUpdateInput: IUpdateTodoInput): Promise<ITodo>;
 }

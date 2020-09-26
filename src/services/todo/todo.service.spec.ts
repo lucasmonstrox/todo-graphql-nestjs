@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
 import faker from 'faker';
 
-import { TodoUpdateInput } from '@/inputs/todo-update.input';
+import { UpdateTodoInput } from '@/inputs/update-todo.input';
 import { TodoEntityMock } from '@/mocks/entities/todo.entity';
 import { TodoRepository } from '@/repositories/todo/todo.repository';
 import { TodoService } from '@/services/todo/todo.service';
@@ -56,7 +56,7 @@ describe('TodoService', () => {
 
   it('should update a TODO', async () => {
     const { sut, todoRepository } = await makeSut();
-    const todoUpdateInput: TodoUpdateInput = {
+    const todoUpdateInput: UpdateTodoInput = {
       done: true,
       task: faker.random.words(),
     };

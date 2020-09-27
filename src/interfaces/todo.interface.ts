@@ -9,7 +9,6 @@ export interface ICreateTodoInput {
 }
 
 export interface IUpdateTodoInput {
-  id: string;
   task?: string;
   done?: boolean;
 }

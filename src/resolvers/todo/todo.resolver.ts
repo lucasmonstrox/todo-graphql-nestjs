@@ -18,9 +18,9 @@ export class TodoResolver {
   @Mutation(() => TodoEntity)
   async createTodo(
     @Args('input', SanitizePipe)
-    todoCreateInput: CreateTodoInput,
+    createTodoInput: CreateTodoInput,
   ): Promise<TodoEntity> {
-    const todo = await this.todoService.createTodo(todoCreateInput);
+    const todo = await this.todoService.createTodo(createTodoInput);
 
     return todo;
   }
@@ -57,9 +57,9 @@ export class TodoResolver {
     @Args('id', { type: () => ID })
     id: string,
     @Args('input', SanitizePipe)
-    todoUpdateInput: UpdateTodoInput,
+    updateTodoInput: UpdateTodoInput,
   ): Promise<TodoEntity> {
-    const updatedTodo = await this.todoService.updateTodo(id, todoUpdateInput);
+    const updatedTodo = await this.todoService.updateTodo(id, updateTodoInput);
 
     return updatedTodo;
   }

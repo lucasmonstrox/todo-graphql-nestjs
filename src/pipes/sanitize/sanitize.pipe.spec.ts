@@ -18,15 +18,15 @@ describe('SanitizePipe', () => {
   it('should sanitize input', async () => {
     const { sut } = makeSut();
     const input = plainToClass(UpdateTodoInput, {
-      done: true,
       task: ' <script></script> ',
+      done: true,
     });
 
     const transformedInput = sut.transform(input);
 
     expect(transformedInput).toMatchObject({
-      done: true,
       task: '&lt;script&gt;&lt;&#x2F;script&gt;',
+      done: true,
     });
   });
 });

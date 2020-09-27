@@ -9,10 +9,10 @@ export class TodoEntity {
   id: string;
 
   @Field()
-  @Column({ default: false })
-  done: boolean;
-
-  @Field()
   @Column({ length: 100 })
   task: string;
+
+  @Field()
+  @Column({ default: false })
+  done: boolean;
 }

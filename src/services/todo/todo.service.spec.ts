@@ -48,22 +48,30 @@ describe('TodoService', () => {
 
   it('should remove a TODO', async () => {
     const { sut, todoRepository } = await makeSut();
+    const getTodoOrThrowSpy = spyOn<any>(sut, 'getTodoOrThrow').and.returnValue(
+      TodoEntityMock,
+    );
 
     await sut.removeTodo(TodoEntityMock.id);
 
+    expect(getTodoOrThrowSpy).toHaveBeenCalledWith(TodoEntityMock.id);
     expect(todoRepository.remove).toHaveBeenCalledWith(TodoEntityMock);
   });
 
   it('should update a TODO', async () => {
     const { sut, todoRepository } = await makeSut();
     const todoUpdateInput: UpdateTodoInput = {
-      done: true,
       task: faker.random.words(),
+      done: true,
     };
+    const getTodoOrThrowSpy = spyOn<any>(sut, 'getTodoOrThrow').and.returnValue(
+      TodoEntityMock,
+    );
 
     expect(await sut.updateTodo(TodoEntityMock.id, todoUpdateInput)).toBe(
       TodoEntityMock,
     );
+    expect(getTodoOrThrowSpy).toHaveBeenCalledWith(TodoEntityMock.id);
     expect(todoRepository.save).toHaveBeenCalledWith(
       Object.assign(TodoEntityMock, todoUpdateInput),
     );

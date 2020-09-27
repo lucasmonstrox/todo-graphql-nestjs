@@ -37,8 +37,8 @@ describe('TodoResolver (e2e)', () => {
     mutation ${operationName}($input: CreateTodoInput!) {
       createTodo(input: $input) {
         id
-        done
         task
+        done
       }
     }
     `;
@@ -105,7 +105,7 @@ describe('TodoResolver (e2e)', () => {
         .expect(200);
     });
 
-    it('should create a TODO and escape html entities and trim spaces', async () => {
+    it('should sanitize and create a TODO', async () => {
       const payload = {
         operationName,
         query: createTodoMutation,
@@ -135,8 +135,8 @@ describe('TodoResolver (e2e)', () => {
     query ${operationName}($id: ID!) {
       getTodo(id: $id) {
         id
-        done
         task
+        done
       }
     }
     `;
@@ -183,8 +183,8 @@ describe('TodoResolver (e2e)', () => {
         query ${operationName} {
           getAllTodos {
             id
-            done
             task
+            done
           }
         }
         `,
@@ -209,8 +209,8 @@ describe('TodoResolver (e2e)', () => {
     mutation ${operationName}($id: ID!, $input: UpdateTodoInput!) {
       updateTodo(id: $id, input: $input) {
         id
-        done
         task
+        done
       }
     }
     `;
@@ -299,7 +299,7 @@ describe('TodoResolver (e2e)', () => {
         .expect(200);
     });
 
-    it('should update a TODO and escape html entities and trim spaces', async () => {
+    it('should sanitize and update a TODO', async () => {
       const payload = {
         operationName,
         query: updateTodoMutation,

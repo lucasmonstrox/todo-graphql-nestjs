@@ -57,8 +57,8 @@ describe('TodoResolver', () => {
   it('should update a TODO', async () => {
     const { sut, todoService } = await makeSut();
     const todoUpdateInput: UpdateTodoInput = {
-      done: true,
       task: faker.random.words(),
+      done: true,
     };
 
     await sut.updateTodo(TodoEntityMock.id, todoUpdateInput);

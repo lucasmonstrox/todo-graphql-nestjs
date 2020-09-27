@@ -4,11 +4,6 @@ import { IsBoolean, IsNotEmpty, IsOptional, MaxLength } from 'class-validator';
 
 @InputType()
 export class UpdateTodoInput {
-  @IsOptional()
-  @IsBoolean()
-  @Field({ nullable: true })
-  done?: boolean;
-
   @Escape()
   @Trim()
   @IsOptional()
@@ -16,4 +11,9 @@ export class UpdateTodoInput {
   @MaxLength(100)
   @Field({ nullable: true })
   task?: string;
+
+  @IsOptional()
+  @IsBoolean()
+  @Field({ nullable: true })
+  done?: boolean;
 }

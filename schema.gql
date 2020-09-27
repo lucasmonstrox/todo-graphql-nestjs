@@ -4,8 +4,8 @@
 
 type Todo {
   id: ID!
-  done: Boolean!
   task: String!
+  done: Boolean!
 }
 
 type Query {
@@ -24,6 +24,6 @@ input CreateTodoInput {
 }
 
 input UpdateTodoInput {
-  done: Boolean
   task: String
+  done: Boolean
 }

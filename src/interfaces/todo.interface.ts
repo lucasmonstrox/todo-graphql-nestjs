@@ -1,7 +1,7 @@
 export interface ITodo {
   id: string;
-  done: boolean;
   task: string;
+  done: boolean;
 }
 
 export interface ICreateTodoInput {
@@ -9,14 +9,15 @@ export interface ICreateTodoInput {
 }
 
 export interface IUpdateTodoInput {
-  done?: boolean;
+  id: string;
   task?: string;
+  done?: boolean;
 }
 
 export interface ITodoService {
-  createTodo(todoCreateInput: ICreateTodoInput): Promise<ITodo>;
+  createTodo(createTodoInput: ICreateTodoInput): Promise<ITodo>;
   getAllTodos(): Promise<ITodo[]>;
   getTodo(id: string): Promise<ITodo | null>;
   removeTodo(id: string): Promise<void>;
-  updateTodo(id: string, todoUpdateInput: IUpdateTodoInput): Promise<ITodo>;
+  updateTodo(id: string, updateTodoInput: IUpdateTodoInput): Promise<ITodo>;
 }

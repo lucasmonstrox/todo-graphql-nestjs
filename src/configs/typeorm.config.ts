@@ -7,7 +7,7 @@ const databases = {
   test: 'local_db_test',
 };
 
-const ormConfig: ConnectionOptions = {
+const typeormConfig: ConnectionOptions = {
   type: 'postgres',
   host: process.env.MYSQL_HOST || 'localhost',
   port: process.env.MYSQL_PORT ? +process.env.MYSQL_PORT : 5432,
@@ -24,4 +24,4 @@ const ormConfig: ConnectionOptions = {
   },
 };
 
-export = ormConfig;
+export = typeormConfig;

@@ -2,16 +2,16 @@ import { Module } from '@nestjs/common';
 import { GraphQLModule } from '@nestjs/graphql';
 import {
   TerminusModule,
-  TypeOrmHealthIndicator,
   TerminusModuleOptions,
+  TypeOrmHealthIndicator,
 } from '@nestjs/terminus';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { useAdapter } from '@type-cacheable/redis-adapter';
 import * as redis from 'redis';
 
 import graphqlConfig from '@/configs/graphql.config';
-import ormConfig from '@/configs/typeorm.config';
 import redisConfig from '@/configs/redis.config';
+import typeormConfig from '@/configs/typeorm.config';
 import { isTesting } from '@/consts/envs';
 import { TodoRepository } from '@/repositories/todo/todo.repository';
 import { TodoResolver } from '@/resolvers/todo/todo.resolver';
@@ -35,7 +35,7 @@ import { TodoService } from '@/services/todo/todo.service';
         ],
       }),
     }),
-    TypeOrmModule.forRoot(ormConfig),
+    TypeOrmModule.forRoot(typeormConfig),
     TypeOrmModule.forFeature([TodoRepository]),
   ],
   providers: [TodoResolver, TodoService],

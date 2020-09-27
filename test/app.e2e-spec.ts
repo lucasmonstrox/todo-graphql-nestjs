@@ -10,7 +10,7 @@ import { TodoEntity } from '@/entities/todo.entity';
 describe('TodoResolver (e2e)', () => {
   let app: INestApplication;
   let createdTodo: TodoEntity;
-  let createdTodoWithHtmlEntities: TodoEntity;
+  let createdSanitizedTodo: TodoEntity;
 
   const graphlEndpoint = '/graphql';
   const nonExistentTodoId = faker.random.uuid();
@@ -116,7 +116,7 @@ describe('TodoResolver (e2e)', () => {
         .post(graphlEndpoint)
         .send(payload)
         .expect(response => {
-          createdTodoWithHtmlEntities = response.body.data.createTodo;
+          createdSanitizedTodo = response.body.data.createTodo;
 
           expect(response.body.data.createTodo).toHaveProperty('done', false);
           expect(response.body.data.createTodo).toHaveProperty('id');
@@ -196,7 +196,7 @@ describe('TodoResolver (e2e)', () => {
         .expect(response => {
           expect(response.body.data.getAllTodos).toMatchObject([
             createdTodo,
-            createdTodoWithHtmlEntities,
+            createdSanitizedTodo,
           ]);
         })
         .expect(200);
@@ -279,7 +279,7 @@ describe('TodoResolver (e2e)', () => {
     });
 
     it('should update a TODO', async () => {
-      const input = { done: true, task: faker.random.words() };
+      const input = { task: faker.random.words(), done: true };
       const payload = {
         operationName,
         query: updateTodoMutation,
@@ -291,9 +291,9 @@ describe('TodoResolver (e2e)', () => {
         .send(payload)
         .expect(response => {
           expect(response.body.data.updateTodo).toMatchObject({
-            done: true,
             id: createdTodo.id,
             task: input.task,
+            done: true,
           });
         })
         .expect(200);
@@ -305,7 +305,7 @@ describe('TodoResolver (e2e)', () => {
         query: updateTodoMutation,
         variables: {
           id: createdTodo.id,
-          input: { done: true, task: ' <script></script> ' },
+          input: { task: ' <script></script> ', done: true },
         },
       };
 
@@ -315,8 +315,8 @@ describe('TodoResolver (e2e)', () => {
         .expect(response => {
           expect(response.body.data.updateTodo).toMatchObject({
             id: createdTodo.id,
-            done: true,
             task: '&lt;script&gt;&lt;&#x2F;script&gt;',
+            done: true,
           });
         })
         .expect(200);

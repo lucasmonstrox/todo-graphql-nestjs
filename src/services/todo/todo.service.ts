@@ -40,7 +40,7 @@ export class TodoService implements ITodoService {
 
   @CacheClear({ cacheKey: ([id]: [string]) => [id, TodoService.cacheKey] })
   async removeTodo(id: string): Promise<void> {
-    const todo = await this.getTodoOrThrow(id);
+    const todo = await this.getTodo(id);
 
     await this.todoRepository.remove(todo);
   }
@@ -53,7 +53,7 @@ export class TodoService implements ITodoService {
     id: string,
     todoUpdateInput: UpdateTodoInput,
   ): Promise<TodoEntity> {
-    const todo = await this.getTodoOrThrow(id);
+    const todo = await this.getTodo(id);
     const todoToUpdate = Object.assign(todo, todoUpdateInput);
     const updatedTodo = await this.todoRepository.save(todoToUpdate);
 
@@ -61,8 +61,8 @@ export class TodoService implements ITodoService {
   }
 
   // TODO: add unit tests
-  private async getTodoOrThrow(id: string): Promise<TodoEntity> {
-    const todo = await this.todoRepository.findOne(id);
+  private async getTodo(id: string): Promise<TodoEntity> {
+    const todo = await this.findTodoById(id);
     const todoNotFound = !todo;
 
     // TODO: add branch test for this

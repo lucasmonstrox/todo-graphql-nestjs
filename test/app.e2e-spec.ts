@@ -129,11 +129,11 @@ describe('TodoResolver (e2e)', () => {
     });
   });
 
-  describe('getTodo', () => {
-    const operationName = 'GetTodo';
-    const getTodoQuery = `
+  describe('findTodoById', () => {
+    const operationName = 'FindTodoById';
+    const findTodoByIdQuery = `
     query ${operationName}($id: ID!) {
-      getTodo(id: $id) {
+      findTodoById(id: $id) {
         id
         task
         done
@@ -144,7 +144,7 @@ describe('TodoResolver (e2e)', () => {
     it('should TODO be null when giving inexistent id', async () => {
       const payload = {
         operationName,
-        query: getTodoQuery,
+        query: findTodoByIdQuery,
         variables: { id: nonExistentTodoId },
       };
 
@@ -152,15 +152,15 @@ describe('TodoResolver (e2e)', () => {
         .post(graphlEndpoint)
         .send(payload)
         .expect(response => {
-          expect(response.body.data.getTodo).toBe(null);
+          expect(response.body.data.findTodoById).toBe(null);
         })
         .expect(200);
     });
 
-    it('should get a TODO', async () => {
+    it('should find TODO by id', async () => {
       const payload = {
         operationName,
-        query: getTodoQuery,
+        query: findTodoByIdQuery,
         variables: { id: createdTodo.id },
       };
 
@@ -168,7 +168,7 @@ describe('TodoResolver (e2e)', () => {
         .post(graphlEndpoint)
         .send(payload)
         .expect(response => {
-          expect(response.body.data.getTodo).toMatchObject(createdTodo);
+          expect(response.body.data.findTodoById).toMatchObject(createdTodo);
         })
         .expect(200);
     });

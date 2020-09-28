@@ -16,7 +16,7 @@ export interface IUpdateTodoInput {
 export interface ITodoService {
   createTodo(createTodoInput: ICreateTodoInput): Promise<ITodo>;
   getAllTodos(): Promise<ITodo[]>;
-  getTodo(id: string): Promise<ITodo | null>;
+  findTodoById(id: string): Promise<ITodo | null>;
   removeTodo(id: string): Promise<void>;
   updateTodo(id: string, updateTodoInput: IUpdateTodoInput): Promise<ITodo>;
 }

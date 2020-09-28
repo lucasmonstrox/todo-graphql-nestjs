@@ -32,7 +32,7 @@ export class TodoService implements ITodoService {
   }
 
   @Cacheable({ cacheKey: ([id]: [string]) => id })
-  async getTodo(id: string): Promise<TodoEntity | undefined> {
+  async findTodoById(id: string): Promise<TodoEntity | undefined> {
     const todo = await this.todoRepository.findOne(id);
 
     return todo;

@@ -39,11 +39,11 @@ describe('TodoResolver', () => {
     expect(await sut.getAllTodos()).toMatchObject([TodoEntityMock]);
   });
 
-  it('should get a TODO', async () => {
+  it('should find a TODO by id', async () => {
     const { sut, todoService } = await makeSut();
 
-    expect(await sut.getTodo(TodoEntityMock.id)).toBe(TodoEntityMock);
-    expect(todoService.getTodo).toHaveBeenCalledWith(TodoEntityMock.id);
+    expect(await sut.findTodoById(TodoEntityMock.id)).toBe(TodoEntityMock);
+    expect(todoService.findTodoById).toHaveBeenCalledWith(TodoEntityMock.id);
   });
 
   it('should remove a TODO', async () => {

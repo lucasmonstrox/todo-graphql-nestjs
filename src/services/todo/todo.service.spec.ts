@@ -39,10 +39,10 @@ describe('TodoService', () => {
     expect(await sut.getAllTodos()).toMatchObject([TodoEntityMock]);
   });
 
-  it('should get a TODO', async () => {
+  it('should find a TODO by id', async () => {
     const { sut, todoRepository } = await makeSut();
 
-    expect(await sut.getTodo(TodoEntityMock.id)).toBe(TodoEntityMock);
+    expect(await sut.findTodoById(TodoEntityMock.id)).toBe(TodoEntityMock);
     expect(todoRepository.findOne).toHaveBeenCalledWith(TodoEntityMock.id);
   });
 

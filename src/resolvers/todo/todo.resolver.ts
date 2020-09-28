@@ -33,11 +33,11 @@ export class TodoResolver {
   }
 
   @Query(() => TodoEntity, { nullable: true })
-  async getTodo(
+  async findTodoById(
     @Args('id', { type: () => ID })
     id: string,
   ): Promise<TodoEntity | undefined> {
-    const todo = await this.todoService.getTodo(id);
+    const todo = await this.todoService.findTodoById(id);
 
     return todo;
   }

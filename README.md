@@ -44,13 +44,13 @@ docker-compose up -d
 Check the database is up
 
 ```bash
-docker logs -f local_db
+docker logs -f todo_pg
 ```
 
 Check that you can log into a database with `psql`
 
 ```bash
-docker exec -it local_db psql -U local_dev local_db
+docker exec -it todo_pg psql -U todo_pg_user todo_pg_db
 ```
 
 View tables
@@ -99,10 +99,10 @@ on a special database
 Tests use their own database. To create it:
 
 ```bash
-docker exec -it local_db psql -U local_dev -c "create database local_db_test" local_db
+docker exec -it todo_pg psql -U todo_pg_user -c "create database todo_pg_db_test" todo_pg_db
 ```
 
-Note that in backend/config/typeorm.config.ts the local_db_test database is
+Note that in backend/config/typeorm.config.ts the todo_db_test database is
 configured to synchronize TypeORM migrations automatically, unlike the
 development database.
 
@@ -154,7 +154,7 @@ yarn typeorm migration:run
 Check the result of migrations using `psql` command-line tool
 
 ```bash
-docker exec -it local_db psql -U local_dev local_db
+docker exec -it todo_pg psql -U todo_pg_user todo_pg_db
 ```
 
 ```psql

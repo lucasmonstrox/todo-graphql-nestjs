@@ -9,10 +9,7 @@ import { TodoService } from '@/services/todo/todo.service';
 jest.mock('@/repositories/todo/todo.repository');
 
 describe('TodoService', () => {
-  type SutTypes = {
-    sut: TodoService;
-    todoRepository: TodoRepository;
-  };
+  type SutTypes = { sut: TodoService; todoRepository: TodoRepository };
 
   const makeSut = async (): Promise<SutTypes> => {
     const moduleRef = await Test.createTestingModule({

@@ -3,22 +3,23 @@ version: '3'
 services:
   postgres:
     image: postgres
-    container_name: local_db
+    container_name: todo_pg
     environment:
-      - POSTGRES_USER=local_dev
-      - POSTGRES_PASSWORD=local_dev
-      - POSTGRES_DB=local_db
+      - POSTGRES_USER=todo_pg_user
+      - POSTGRES_PASSWORD=todo_pg_pass
+      - POSTGRES_DB=todo_pg_db
     ports:
       - 5432:5432
     volumes:
-      - local_db_data:/var/lib/postgresql/data
+      - todo_pg_data:/var/lib/postgresql/data
   redis:
     image: redis:alpine
+    container_name: todo_redis
     ports:
       - 6379:6379
     volumes:
-      - redis_data:/var/lib/redis
+      - todo_redis_data:/var/lib/redis
 
 volumes:
-  local_db_data:
-  redis_data:
+  todo_pg_data:
+  todo_redis_data:

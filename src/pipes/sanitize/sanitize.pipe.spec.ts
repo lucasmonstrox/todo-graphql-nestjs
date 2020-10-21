@@ -4,9 +4,7 @@ import { UpdateTodoInput } from '@/inputs/update-todo.input';
 import { SanitizePipe } from './sanitize.pipe';
 
 describe('SanitizePipe', () => {
-  type SutTypes = {
-    sut: SanitizePipe;
-  };
+  type SutTypes = { sut: SanitizePipe };
 
   const makeSut = (): SutTypes => {
     const sanitizePipe = new SanitizePipe();
@@ -21,7 +19,6 @@ describe('SanitizePipe', () => {
       task: ' <script></script> ',
       done: true,
     });
-
     const transformedInput = sut.transform(input);
 
     expect(transformedInput).toMatchObject({

@@ -55,7 +55,7 @@ describe('TodoResolver (e2e)', () => {
         .send(payload)
         .expect(response => {
           expect(response.body.errors).toHaveProperty(
-            '0.extensions.exception.response.message.0.constraints.isNotEmpty',
+            '0.extensions.errors.task.isNotEmpty',
             'task should not be empty',
           );
         })
@@ -74,7 +74,7 @@ describe('TodoResolver (e2e)', () => {
         .send(payload)
         .expect(response => {
           expect(response.body.errors).toHaveProperty(
-            '0.extensions.exception.response.message.0.constraints.maxLength',
+            '0.extensions.errors.task.maxLength',
             'task must be shorter than or equal to 100 characters',
           );
         })
@@ -249,7 +249,7 @@ describe('TodoResolver (e2e)', () => {
         .send(payload)
         .expect(response => {
           expect(response.body.errors).toHaveProperty(
-            '0.extensions.exception.response.message.0.constraints.isNotEmpty',
+            '0.extensions.errors.task.isNotEmpty',
             'task should not be empty',
           );
         })
@@ -271,7 +271,7 @@ describe('TodoResolver (e2e)', () => {
         .send(payload)
         .expect(response => {
           expect(response.body.errors).toHaveProperty(
-            '0.extensions.exception.response.message.0.constraints.maxLength',
+            '0.extensions.errors.task.maxLength',
             'task must be shorter than or equal to 100 characters',
           );
         })

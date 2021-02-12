@@ -4,22 +4,19 @@ import { FindTodoService } from '@/services/find-todo.service';
 import { FindTodoResolver } from './find-todo.resolver';
 jest.mock('@/services/find-todo.service');
 describe('FindTodoResolver', () => {
-  type SutTypes = {
-    sut: FindTodoResolver;
-    findTodoService: FindTodoService;
-  };
+  type SutTypes = { sut: FindTodoResolver; service: FindTodoService };
   const makeSut = async (): Promise<SutTypes> => {
     const moduleRef = await Test.createTestingModule({
       providers: [FindTodoService, FindTodoResolver],
     }).compile();
-    const findTodoService = moduleRef.get<FindTodoService>(FindTodoService);
-    const findTodoResolver = moduleRef.get<FindTodoResolver>(FindTodoResolver);
-    const sutTypes = { findTodoService, sut: findTodoResolver };
+    const service = moduleRef.get<FindTodoService>(FindTodoService);
+    const resolver = moduleRef.get<FindTodoResolver>(FindTodoResolver);
+    const sutTypes = { service, sut: resolver };
     return sutTypes;
   };
   it('should find a TODO by id', async () => {
-    const { sut, findTodoService } = await makeSut();
+    const { sut, service } = await makeSut();
     expect(await sut.todo(Todo.id)).toBe(Todo);
-    expect(findTodoService.findById).toHaveBeenCalledWith(Todo.id);
+    expect(service.findById).toHaveBeenCalledWith(Todo.id);
   });
 });

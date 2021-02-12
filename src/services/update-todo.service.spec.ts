@@ -18,13 +18,8 @@ describe('UpdateTodoService', () => {
   };
   it('should update a TODO', async () => {
     const { sut, repository } = await makeSut();
-    const todoUpdateInput: UpdateTodoInput = {
-      task: faker.random.words(),
-      done: true,
-    };
-    expect(await sut.update(Todo.id, todoUpdateInput)).toBe(Todo);
-    expect(repository.save).toHaveBeenCalledWith(
-      Object.assign(Todo, todoUpdateInput),
-    );
+    const input: UpdateTodoInput = { task: faker.random.words(), done: true };
+    expect(await sut.update(Todo.id, input)).toBe(Todo);
+    expect(repository.save).toHaveBeenCalledWith(Object.assign(Todo, input));
   });
 });

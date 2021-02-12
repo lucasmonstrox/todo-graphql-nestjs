@@ -8,13 +8,13 @@ import { UpdateTodoInput } from '@/inputs/update-todo.input';
 export class UpdateTodoResolver {
   constructor(
     @Inject(UpdateTodoService)
-    private readonly updateTodoService: IUpdateTodoService,
+    private updateTodoService: IUpdateTodoService,
   ) {}
   @Mutation(() => Todo)
   async updateTodo(
     @Args('id', { type: () => ID }) id: string,
-    @Args('input') updateTodoInput: UpdateTodoInput,
+    @Args('input') input: UpdateTodoInput,
   ): Promise<Todo> {
-    return await this.updateTodoService.update(id, updateTodoInput);
+    return await this.updateTodoService.update(id, input);
   }
 }

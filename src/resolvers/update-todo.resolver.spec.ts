@@ -18,11 +18,8 @@ describe('UpdateTodoResolver', () => {
   };
   it('should update a TODO', async () => {
     const { sut, service } = await makeSut();
-    const todoUpdateInput: UpdateTodoInput = {
-      task: faker.random.words(),
-      done: true,
-    };
-    await sut.updateTodo(Todo.id, todoUpdateInput);
-    expect(service.update).toHaveBeenCalledWith(Todo.id, todoUpdateInput);
+    const input: UpdateTodoInput = { task: faker.random.words(), done: true };
+    await sut.updateTodo(Todo.id, input);
+    expect(service.update).toHaveBeenCalledWith(Todo.id, input);
   });
 });

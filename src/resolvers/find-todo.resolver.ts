@@ -7,7 +7,7 @@ import { FindTodoService } from '@/services/find-todo.service';
 export class FindTodoResolver {
   constructor(
     @Inject(FindTodoService)
-    private readonly findTodoService: IFindTodoService,
+    private findTodoService: IFindTodoService,
   ) {}
   @Query(() => Todo, { nullable: true })
   async todo(

@@ -4,7 +4,7 @@ import { todoCacheKey } from '@/consts/todo';
 import { TodoRepository } from '@/repositories/todo.repository';
 @Injectable()
 export class DeleteTodoService {
-  constructor(private readonly todoRepository: TodoRepository) {}
+  constructor(private todoRepository: TodoRepository) {}
   @CacheClear({ cacheKey: ([id]: [string]) => [id, todoCacheKey] })
   async delete(id: string): Promise<true> {
     const todo = await this.todoRepository.findOneOrFail(id);

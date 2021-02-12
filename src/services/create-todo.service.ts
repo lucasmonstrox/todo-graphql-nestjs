@@ -6,12 +6,12 @@ import { CreateTodoInput } from '@/inputs/create-todo.input';
 import { TodoRepository } from '@/repositories/todo.repository';
 @Injectable()
 export class CreateTodoService {
-  constructor(private readonly todoRepository: TodoRepository) {}
+  constructor(private todoRepository: TodoRepository) {}
   @CacheUpdate({
     cacheKey: (_, __, todo: Todo) => todo.id,
     cacheKeysToClear: todoCacheKey,
   })
-  async create(createTodoInput: CreateTodoInput): Promise<Todo> {
-    return await this.todoRepository.save(createTodoInput);
+  async create(input: CreateTodoInput): Promise<Todo> {
+    return await this.todoRepository.save(input);
   }
 }

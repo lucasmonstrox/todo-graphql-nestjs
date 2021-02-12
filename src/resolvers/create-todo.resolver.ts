@@ -7,8 +7,7 @@ import { CreateTodoService } from '@/services/create-todo.service';
 @Resolver(() => Todo)
 export class CreateTodoResolver {
   constructor(
-    @Inject(CreateTodoService)
-    private createTodoService: ICreateTodoService,
+    @Inject(CreateTodoService) private createTodoService: ICreateTodoService,
   ) {}
   @Mutation(() => Todo)
   async createTodo(@Args('input') input: CreateTodoInput): Promise<Todo> {

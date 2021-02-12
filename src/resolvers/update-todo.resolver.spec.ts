@@ -1,7 +1,7 @@
 import { Test } from '@nestjs/testing';
 import faker from 'faker';
-import { UpdateTodoInput } from '@/inputs/update-todo.input';
 import { Todo } from '@/database/entities/__mocks__/todo.entity';
+import { UpdateTodoInput } from '@/inputs/update-todo.input';
 import { UpdateTodoService } from '@/services/update-todo.service';
 import { UpdateTodoResolver } from './update-todo.resolver';
 jest.mock('@/services/update-todo.service');

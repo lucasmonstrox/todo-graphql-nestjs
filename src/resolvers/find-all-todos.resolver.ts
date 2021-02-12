@@ -6,8 +6,7 @@ import { FindAllTodosService } from '@/services/find-all-todos.service';
 @Resolver(() => Todo)
 export class FindAllTodosResolver {
   constructor(
-    @Inject(FindAllTodosService)
-    private findAllTodos: IFindAllTodosService,
+    @Inject(FindAllTodosService) private findAllTodos: IFindAllTodosService,
   ) {}
   @Query(() => [Todo])
   async todos(): Promise<Todo[]> {

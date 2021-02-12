@@ -6,8 +6,7 @@ import { DeleteTodoService } from '@/services/delete-todo.service';
 @Resolver(() => Todo)
 export class DeleteTodoResolver {
   constructor(
-    @Inject(DeleteTodoService)
-    private deleteTodoService: IDeleteTodoService,
+    @Inject(DeleteTodoService) private deleteTodoService: IDeleteTodoService,
   ) {}
   @Mutation(() => Boolean)
   async deleteTodo(@Args('id', { type: () => ID }) id: string): Promise<true> {

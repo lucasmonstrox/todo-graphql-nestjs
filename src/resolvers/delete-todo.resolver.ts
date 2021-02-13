@@ -3,6 +3,7 @@ import { Args, ID, Mutation, Resolver } from '@nestjs/graphql';
 import { Todo } from '@/database/entities/todo.entity';
 import { DeleteTodoService as IDeleteTodoService } from '@/interfaces/delete-todo.interface';
 import { DeleteTodoService } from '@/services/delete-todo.service';
+// TODO: add e2e tests
 @Resolver(() => Todo)
 export class DeleteTodoResolver {
   constructor(

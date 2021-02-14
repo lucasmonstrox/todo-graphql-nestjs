@@ -1,7 +1,5 @@
 import { ConnectionOptions } from 'typeorm';
-
 import { environment, isTesting } from '@/consts/envs';
-
 const databases = {
   development: process.env.POSTGRES_DATABASE || 'todo_pg_db',
   test: 'todo_pg_db_test',
@@ -20,5 +18,4 @@ const typeormConfig: ConnectionOptions = {
   migrationsRun: false,
   cli: { migrationsDir: 'src/migrations' },
 };
-
 export = typeormConfig;

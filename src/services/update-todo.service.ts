@@ -8,12 +8,12 @@ import { TodoRepository } from '@/repositories/todo.repository';
 export class UpdateTodoService {
   constructor(private todoRepository: TodoRepository) {}
   @CacheUpdate({
-    cacheKey: (_, __, todo: Todo) => todo.id,
+    cacheKey: (_args, _context, todo: Todo) => todo.id,
     cacheKeysToClear: todoCacheKey,
   })
   async update(id: string, input: UpdateTodoInput): Promise<Todo> {
     const todo = await this.todoRepository.findOneOrFail(id);
-    const todoToUpdate = Object.assign(todo, input);
-    return await this.todoRepository.save(todoToUpdate);
+    const todoUpdated = Object.assign(todo, input);
+    return this.todoRepository.save(todoUpdated);
   }
 }

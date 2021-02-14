@@ -14,6 +14,6 @@ export class UpdateTodoResolver {
     @Args('id', { type: () => ID }) id: string,
     @Args('input') input: UpdateTodoInput,
   ): Promise<Todo> {
-    return await this.updateTodoService.update(id, input);
+    return this.updateTodoService.update(id, input);
   }
 }

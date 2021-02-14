@@ -1,5 +1,4 @@
 import * as path from 'path';
-
 // TODO: add type
 const typeormForSeedConfig = {
   type: 'postgres',
@@ -15,7 +14,6 @@ const typeormForSeedConfig = {
   factories: [path.resolve(__dirname, '**/*.factory.{ts,js}')],
   seeds: [path.resolve(__dirname, '**/*.seed.{.ts,.js}')],
 };
-
 // eslint-disable-next-line @typescript-eslint/ban-ts-ignore
 // @ts-ignore
 export = typeormForSeedConfig;

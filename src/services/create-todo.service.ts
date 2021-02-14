@@ -12,6 +12,6 @@ export class CreateTodoService {
     cacheKeysToClear: todoCacheKey,
   })
   async create(input: CreateTodoInput): Promise<Todo> {
-    return await this.todoRepository.save(input);
+    return this.todoRepository.save(input);
   }
 }

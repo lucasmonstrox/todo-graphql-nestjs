@@ -3,6 +3,7 @@ import { Args, ID, Query, Resolver } from '@nestjs/graphql';
 import { Todo } from '@/database/entities/todo.entity';
 import { FindTodoService as IFindTodoService } from '@/interfaces/find-todo.interface';
 import { FindTodoService } from '@/services/find-todo.service';
+// TODO: add e2e tests
 @Resolver(() => Todo)
 export class FindTodoResolver {
   constructor(
@@ -12,6 +13,6 @@ export class FindTodoResolver {
   async todo(
     @Args('id', { type: () => ID }) id: string,
   ): Promise<Todo | undefined> {
-    return await this.findTodoService.findById(id);
+    return this.findTodoService.findById(id);
   }
 }

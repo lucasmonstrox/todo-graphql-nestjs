@@ -1,8 +1,13 @@
-import { InputType } from '@nestjs/graphql';
+import { Escape, Trim } from '@hollowverse/class-sanitizer';
+import { Field, InputType } from '@nestjs/graphql';
 import { IsNotEmpty, MaxLength } from 'class-validator';
+
 @InputType()
 export class CreateTodoInput {
+  @Escape()
+  @Trim()
   @IsNotEmpty()
-  @MaxLength(100) // TODO: export maxlength from definitions
+  @MaxLength(100)
+  @Field()
   task: string;
 }

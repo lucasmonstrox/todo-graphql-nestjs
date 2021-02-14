@@ -1,5 +1,8 @@
 {
-  "moduleDirectories": ["node_modules", "src"],
+  "moduleDirectories": [
+    "node_modules",
+    "src"
+  ],
   "moduleFileExtensions": ["js", "json", "ts"],
   "moduleNameMapper": {
     "@/(.*)": "<rootDir>/src/$1"
@@ -9,12 +12,5 @@
   "testRegex": ".e2e-spec.ts$",
   "transform": {
     "^.+\\.(t|j)s$": "ts-jest"
-  },
-  "globals": {
-    "ts-jest": {
-      "astTransformers": {
-        "before": ["<rootDir>/test/ast.ts"]
-      }
-    }
   }
 }

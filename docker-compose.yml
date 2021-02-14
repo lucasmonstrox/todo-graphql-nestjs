@@ -1,4 +1,5 @@
 version: '3'
+
 services:
   postgres:
     image: postgres
@@ -10,14 +11,15 @@ services:
     ports:
       - 5432:5432
     volumes:
-      - pg:/var/lib/postgresql/data
+      - todo_pg_data:/var/lib/postgresql/data
   redis:
     image: redis:alpine
     container_name: todo_redis
     ports:
       - 6379:6379
     volumes:
-      - redis:/var/lib/redis
+      - todo_redis_data:/var/lib/redis
+
 volumes:
-  pg:
-  redis:
+  todo_pg_data:
+  todo_redis_data:

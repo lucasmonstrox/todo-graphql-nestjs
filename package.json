@@ -24,6 +24,7 @@
   },
   "dependencies": {
     "@godaddy/terminus": "^4.4.1",
+    "@hollowverse/class-sanitizer": "^0.1.2",
     "@nestjs/common": "^7.0.0",
     "@nestjs/core": "^7.0.0",
     "@nestjs/graphql": "^7.5.5",
@@ -48,6 +49,7 @@
   "devDependencies": {
     "@commitlint/cli": "^9.1.1",
     "@commitlint/config-conventional": "^9.1.1",
+    "@compodoc/compodoc": "^1.1.11",
     "@nestjs/cli": "^7.0.0",
     "@nestjs/schematics": "^7.0.0",
     "@nestjs/testing": "^7.0.0",
@@ -66,11 +68,10 @@
     "jest": "^25.1.0",
     "prettier": "^1.19.1",
     "supertest": "^4.0.2",
-    "ts-jest": "26.4.4",
+    "ts-jest": "25.2.1",
     "ts-loader": "^6.2.1",
     "ts-node": "^8.6.2",
     "tsconfig-paths": "^3.9.0",
-    "typeorm-seeding": "^1.6.1",
     "typescript": "^3.7.4"
   },
   "jest": {

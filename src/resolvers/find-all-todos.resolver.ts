@@ -11,6 +11,6 @@ export class FindAllTodosResolver {
   ) {}
   @Query(() => [Todo])
   async todos(): Promise<Todo[]> {
-    return await this.findAllTodos.find();
+    return this.findAllTodos.find();
   }
 }

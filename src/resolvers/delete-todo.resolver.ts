@@ -11,6 +11,6 @@ export class DeleteTodoResolver {
   ) {}
   @Mutation(() => Boolean)
   async deleteTodo(@Args('id', { type: () => ID }) id: string): Promise<true> {
-    return await this.deleteTodoService.delete(id);
+    return this.deleteTodoService.delete(id);
   }
 }

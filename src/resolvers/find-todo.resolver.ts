@@ -13,6 +13,6 @@ export class FindTodoResolver {
   async todo(
     @Args('id', { type: () => ID }) id: string,
   ): Promise<Todo | undefined> {
-    return await this.findTodoService.findById(id);
+    return this.findTodoService.findById(id);
   }
 }

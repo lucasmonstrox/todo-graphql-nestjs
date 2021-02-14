@@ -8,6 +8,6 @@ export class FindAllTodosService {
   constructor(private todoRepository: TodoRepository) {}
   @Cacheable({ cacheKey: todoCacheKey })
   async find(): Promise<Todo[]> {
-    return await this.todoRepository.find();
+    return this.todoRepository.find();
   }
 }

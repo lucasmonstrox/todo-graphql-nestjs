@@ -1,7 +1,7 @@
 version: '3'
 services:
   postgres:
-    image: postgres
+    image: postgres:13.2
     container_name: todo_pg
     environment:
       - POSTGRES_USER=todo_pg_user
